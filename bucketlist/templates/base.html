@@ -1,0 +1,62 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BucketList | {% block title %}Home{% endblock title %}</title>
+    
+    <!-- Stylesheets -->
+    <!-- Flickity -->
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/flickity/dist/flickity.min.css' %}" />
+    <!-- Materialize -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.css' %}" />
+    <!-- BucketList css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bucketlist.css' %}" />
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    
+    <div class="container-fluid viewport-container {% if shaded_bg %}shaded{% endif %}"> <!-- viewport container (wraps everything)-->
+
+        <div class="container page-container"> <!-- page container (contains page content)-->
+
+            <main>
+            {% block main %}
+                {# The main content of the page (added in extending/subclassing templates) goes here. #}
+                {# NOTE: the <main> tag is excluded from the main block so subclassing templates need not include them. #}
+            {% endblock main %}
+            </main>
+
+        </div> <!-- ends page container -->
+
+
+    </div> <!-- ends viewport container -->
+
+    <!-- jQuery -->
+    <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Flickity -->
+    <script src="{% static 'lib/flickity/dist/flickity.pkgd.min.js' %}"></script>
+    <!-- Materialize -->
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <!-- BucketList base-->
+    <script src="{% static 'js/bucketlist.js' %}"></script>
+    
+</body>
+
+</html>

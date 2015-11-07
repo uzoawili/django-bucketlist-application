@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 center-block">
+                <h1>You Only Live Once</h1>
+                <form method="POST" action="" class="">
+                    {% csrf_token %}
+                    <div>
+                    	{{ signup_form }}
+                    <input type="submit" value="Get Started" class="btn btn-default"></input>
+                    </div>
+                </form>
+                <form method="POST" action="" class="">
+                    {% csrf_token %}
+                    <div>
+                    	{{ signin_form }}
+                    <input type="submit" value="Sign in" class="btn btn-default"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
