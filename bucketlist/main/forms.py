@@ -9,6 +9,11 @@ class SignupForm(UserCreationForm):
     """
     Form that creates a user from the given username and password
     """
+
+    password2 = forms.CharField(label="Confirm Password",
+        widget=forms.PasswordInput,
+        help_text="Enter the same password as above, for verification.")
+
     class Meta:
         model = User
         fields = ('username','password1', 'password2')

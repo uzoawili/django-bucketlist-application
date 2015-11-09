@@ -1,0 +1,24 @@
+{
+  "name": "thebucketlistapp",
+  "version": "0.0.1",
+  "authors": [
+    "Awili Uzo <uzo.awili@andela.com>"
+  ],
+  "description": "thebucketlistapp requirements",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "thebucketlistapp-staging.herokuapp.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "flickity": "~1.1.1",
+    "jquery": "~2.1.4"
+  }
+}

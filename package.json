@@ -1,0 +1,15 @@
+{
+    "name": "thebucketlistapp-staging",
+    "description": "TheBucketListApp staging deploy",
+    "version": "1.0.0",
+    "engines": {
+        "npm": "2.1.x"
+    },
+    "scripts": {
+        "preinstall": "npm install --save bower",
+        "postinstall": "./node_modules/.bin/bower install"
+    },
+    "dependencies": {
+    "bower": "^1.3.2"
+  }
+}
