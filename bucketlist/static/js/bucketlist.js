@@ -20,6 +20,9 @@ $(document).ready(function() {
     //  Auth Panels:
     //----------------------------------------
 
+    //get the index of the active auth panel:
+    active_auth_index = $('.auth-panels').data('activeAuthIndex')
+
     //initialize Flickity on the auth panels:
     $authPanels = $('.auth-panels').flickity({
     
@@ -27,7 +30,8 @@ $(document).ready(function() {
         setGallerySize: true,
         freeScroll: false,
         prevNextButtons: false,
-        pageDots: false
+        pageDots: false,
+        initialIndex: active_auth_index
 
     });
 

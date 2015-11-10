@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from views import HomeView
+from views import IndexView, BucketListsView
 
 urlpatterns = [
-    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^bucketlists/$', BucketListsView.as_view(), name='bucketlists'),
 ]

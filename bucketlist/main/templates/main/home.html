@@ -30,7 +30,7 @@
 					</div>
 
 					<div class="col s12 m12 l5">
-						<div class="auth-panels right">
+						<div class="auth-panels right" data-active-auth-index="{{ active_auth_index }}">
 								{% include "main/signup_snippet.html" with form=signup_form %}
 								{% include "main/signin_snippet.html" with form=signin_form %}
 						</div>

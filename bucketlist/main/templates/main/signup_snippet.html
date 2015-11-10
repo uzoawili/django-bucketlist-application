@@ -19,7 +19,11 @@
         {% endfor %}
 
         <div class="col s12">
-          <button class="btn btn-large waves-effect waves-dark" type="submit" name="action">Get Started</button>
+          <p class="messages center-align truncate tiny">{{ validation_msg }}</p>
+        </div>
+
+        <div class="col s12">
+          <button class="btn btn-large waves-effect waves-dark" type="submit" name="signup">Get Started</button>
         </div>
 
       </div>

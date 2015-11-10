@@ -75,8 +75,6 @@ WSGI_APPLICATION = 'bucketlist.wsgi.application'
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    # Additional backend for allaccess
-    'allaccess.backends.AuthorizedServiceBackend',
 )
 
 # Internationalization
