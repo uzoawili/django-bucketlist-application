@@ -28,6 +28,7 @@ $(document).ready(function() {
     
         cellSelector: '.panel',
         setGallerySize: true,
+        draggable: false,
         freeScroll: false,
         prevNextButtons: false,
         pageDots: false,

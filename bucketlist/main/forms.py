@@ -14,10 +14,6 @@ class SignupForm(UserCreationForm):
         widget=forms.PasswordInput,
         help_text="Enter the same password as above, for verification.")
 
-    class Meta:
-        model = User
-        fields = ('username','password1', 'password2')
-
 
 class SigninForm(AuthenticationForm):
     """

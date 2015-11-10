@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 from django.core.validators import ValidationError
 from django.contrib import messages
@@ -19,8 +18,7 @@ class IndexView(View):
 
     validation_msgs = {
         'invalid_params': 'Invalid username or password!',
-        'user_already_exists': 'Sorry, that username is taken.',
-        'auth_error': 'Oops, an error occured! Try again.'
+        'auth_error': 'Oops, an error occured! Try again.',
     }
 
     def get(self, request, *args, **kwargs):
@@ -34,64 +32,51 @@ class IndexView(View):
 
 
     def post(self, request, *args, **kwargs):
-        
         if 'signup' in request.POST:
-
-            signup_form = SignupForm(request.POST, auto_id=True)
-            validation_msg = ""
-
-            if signup_form.is_valid():
-                # get the auth params:
-                username = signup_form['username'].value()
-                password = signup_form['password1'].value()
-                # ensure it's not an existing user:
-                try:
-                    user = User.objects.get(username=username)
-                    validation_msg = self.validation_msgs.get('user_already_exists')
-                except ObjectDoesNotExist:
-                    # save the new user to db:
-                    signup_form.save()
-                    # authenticate & log the created user in:
-                    if self.authenticate_and_login(username, password):
-                        # redirect to the dashboard/bucketlists view:
-                        return redirect(reverse('dashboard:bucketlists'))
-                    else: 
-                        validation_msg = self.validation_msgs.get('auth_error')
-            else: 
-                validation_msg = self.validation_msgs.get('invalid_params')
-            
-            # render with invalid form and msgs:
-            return self.render_home_view(signup_form=signup_form, validation_msg=validation_msg)
-
+            auth_form_name = 'signup_form'
+            auth_form = SignupForm(request.POST, auto_id=True)
+            password_field_name = 'password1'
+            active_auth_index = 0
         
         elif 'signin' in request.POST:
+            auth_form_name = 'signin_form'
+            auth_form = SigninForm(data=request.POST, auto_id=True)
+            password_field_name = 'password'
+            active_auth_index = 1
 
-            signin_form = SigninForm(request.POST, auto_id=True)
-            validation_msg = ""
+        else:  return self.render_home_view()
             
-            if signin_form.is_valid():
-                # get the auth params:
-                username = signup_form['username'].value()
-                password = signup_form['password'].value()
-                # authenticate & log the created user in:
-                if self.authenticate_and_login(username, password):
-                    # redirect to the dashboard:
-                    return redirect(reverse('dashboard:bucketlists'))
-                else: 
-                    validation_msg = self.validation_msgs.get('auth_error')
-            else: 
-                validation_msg = self.validation_msgs.get('invalid_params')
-        
-        else: 
-            return self.render_home_view()
-
-
-    def render_home_view( self,
-        signup_form = SignupForm(auto_id=True), 
-        signin_form = SigninForm(auto_id=True), 
-        active_auth_index = 0,
         validation_msg = ""
-    ):
+
+        if auth_form.is_valid():
+            # get the auth params:
+            username = auth_form['username'].value()
+            password = auth_form[password_field_name].value()
+            # when signing up, save the new user to db:
+            if auth_form_name == 'signup_form':
+                auth_form.save()
+            # authenticate & log the user in:
+            if self.authenticate_and_login(username, password):
+                # redirect to the dashboard/bucketlists view:
+                return redirect(reverse('dashboard:bucketlists'))
+            
+            else: validation_msg = self.validation_msgs.get('auth_error')
+        else: validation_msg = self.validation_msgs.get('invalid_params')
+        
+        # render with invalid form and msgs:
+        return self.render_home_view(**{
+            auth_form_name: auth_form,
+            'active_auth_index': active_auth_index,
+            'validation_msg': validation_msg,
+        }) 
+
+
+    def render_home_view(self, \
+        signup_form = SignupForm(auto_id=True), \
+        signin_form = SigninForm(auto_id=True), \
+        active_auth_index = 0, \
+        validation_msg = "" \
+        ):
         # otherwise show home view:
         context = {
             'signup_form': signup_form,
@@ -101,7 +86,7 @@ class IndexView(View):
         }
         context.update(csrf(self.request))
         return render(self.request, 'main/home.html', context)
-
+    
 
     def authenticate_and_login(self, username, password):
         try:
@@ -112,6 +97,8 @@ class IndexView(View):
             return None
 
 
+
+
 # class BucketListsView(ListView):
 class BucketListsView(View):
     # context_object_name = 'bucketlists'
@@ -119,12 +106,6 @@ class BucketListsView(View):
     # template_name = 'main/bucketlists.html'
 
     def get(self, request, *args, **kwargs):
-        
         # otherwise show home view:
-        return HttpResponse("Signed in!")
-
-    def post(self, request, *args, **kwargs):
-        
-        # otherwise show home view:
-        return HttpResponse("Signed in!")
+        return HttpResponse("Hi {}, welcome to TheBucketListApp!".format(request.user.username))
 
