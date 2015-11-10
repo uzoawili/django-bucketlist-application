@@ -77,6 +77,14 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+LOGIN_URL = 'home'
+
+LOGOUT_URL = 'home'
+
+LOGIN_REDIRECT_URL = 'dashboard:bucketlists'
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

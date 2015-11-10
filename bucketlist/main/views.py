@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView
 
 from django.http import HttpResponse
@@ -74,7 +75,7 @@ class IndexView(View):
     def render_home_view(self, \
         signup_form = SignupForm(auto_id=True), \
         signin_form = SigninForm(auto_id=True), \
-        active_auth_index = 0, \
+        active_auth_index = 0000, \
         validation_msg = "" \
         ):
         # otherwise show home view:
@@ -98,13 +99,13 @@ class IndexView(View):
 
 
 
-
 # class BucketListsView(ListView):
 class BucketListsView(View):
     # context_object_name = 'bucketlists'
     # queryset = BucketList.objects.filter(publisher__name='Acme Publishing')
     # template_name = 'main/bucketlists.html'
 
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         # otherwise show home view:
         return HttpResponse("Hi {}, welcome to TheBucketListApp!".format(request.user.username))
