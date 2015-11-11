@@ -86,7 +86,7 @@ class IndexView(View):
             'validation_msg': validation_msg,
         }
         context.update(csrf(self.request))
-        return render(self.request, 'main/home.html', context)
+        return render(self.request, 'dashboard/home.html', context)
     
 
     def authenticate_and_login(self, username, password):
@@ -103,7 +103,7 @@ class IndexView(View):
 class BucketListsView(View):
     # context_object_name = 'bucketlists'
     # queryset = BucketList.objects.filter(publisher__name='Acme Publishing')
-    # template_name = 'main/bucketlists.html'
+    # template_name = 'dashboard/bucketlists.html'
 
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):

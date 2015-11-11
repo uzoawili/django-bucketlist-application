@@ -4,7 +4,7 @@
 {% block main %}
 	<main class="homepage">
 		<div class="bg-img hide-on-small-only">
-			{% include "main/slideshow_snippet.html" with form=signup_form %}
+			{% include "dashboard/slideshow_snippet.html" with form=signup_form %}
 		</div>
 		<div class="bg-overlay"></div>
 		<div class="scrollable-content">
@@ -31,8 +31,8 @@
 
 					<div class="col s12 m12 l5">
 						<div class="auth-panels right" data-active-auth-index="{{ active_auth_index }}">
-								{% include "main/signup_snippet.html" with form=signup_form %}
-								{% include "main/signin_snippet.html" with form=signin_form %}
+								{% include "dashboard/signup_snippet.html" with form=signup_form %}
+								{% include "dashboard/signin_snippet.html" with form=signin_form %}
 						</div>
 					</div>
 

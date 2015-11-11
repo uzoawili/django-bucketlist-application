@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_nose',
-    'main',
+    'dashboard',
     'api',
 )
 
