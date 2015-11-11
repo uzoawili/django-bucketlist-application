@@ -77,3 +77,6 @@ bucketlist/*/migrations/*
 
 # local resources
 _resources/
+
+# Markdown previews:
+README.html
