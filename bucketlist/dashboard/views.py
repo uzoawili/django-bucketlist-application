@@ -87,7 +87,7 @@ class IndexView(View):
         }
         context.update(csrf(self.request))
         return render(self.request, 'dashboard/home.html', context)
-    
+
 
     def authenticate_and_login(self, username, password):
         try:
@@ -98,7 +98,6 @@ class IndexView(View):
             return None
 
 
-
 # class BucketListsView(ListView):
 class BucketListsView(View):
     # context_object_name = 'bucketlists'
@@ -107,6 +106,10 @@ class BucketListsView(View):
 
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
-        # otherwise show home view:
-        return HttpResponse("Hi {}, welcome to TheBucketListApp!".format(request.user.username))
+        
+        context = {
+            'sidebar_tab_index': 1,
+        }
+        context.update(csrf(self.request))
+        return render(self.request, 'dashboard/bucketlists.html', context)
 

@@ -1,26 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block window_title %}Dashboard{% endblock window_title %}
+
 {% block main %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 center-block">
-                <h1>You Only Live Once</h1>
-                <form method="POST" action="" class="">
-                    {% csrf_token %}
-                    <div>
-                    	{{ signup_form }}
-                    <input type="submit" value="Get Started" class="btn btn-default"></input>
-                    </div>
-                </form>
-                <form method="POST" action="" class="">
-                    {% csrf_token %}
-                    <div>
-                    	{{ signin_form }}
-                    <input type="submit" value="Sign in" class="btn btn-default"></input>
-                    </div>
-                </form>
-            </div>
+  <main class="dashboard">
+
+    <nav>
+
+      <!-- sidebar, collapses on smaller screens -->
+      <div id="slide-out" class="side-nav fixed">
+        <div class="container">
+          <div class="brand">
+            <img src="{% static 'img/brand.png' %}">
+          </div>
+
+          <ul class="user-options">
+              <li {% if sidebar_tab_index == 0 %}class="active"{% endif %}><a href="{% url 'dashboard:bucketlists' %}" class="profile-link">
+                <h5>@{{ request.user.username }}</h5>
+              </a></li>
+              <li {% if sidebar_tab_index == 1 %}class="active"{% endif %}><a href="{% url 'dashboard:bucketlists' %}" class="">My Bucket Lists</a></li>
+              <li {% if sidebar_tab_index == 2 %}class="active"{% endif %}><a href="{% url 'signout' %}" class="">Sign Out</a></li>
+          </ul>
         </div>
-    </div>
+      </div> <!-- end slide-out side-nav -->
+
+
+      <!-- page header bar containg title and options, search etc -->
+      <div class="page-header valign-wrapper">
+
+        <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
+          <i class="mdi-navigation-menu"></i>
+        </a>
+
+        <div class="view-title valign">
+          <h4>
+            {% block view_title %}---{% endblock view_title %}
+          </h4>
+        </div> 
+
+      </div><!-- end page-header -->
+
+    </nav>
+
+    {% block page %}
+
+    {% endblock page %}
+
+  </main>
 {% endblock main %}

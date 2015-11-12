@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Home{% endblock title %}
+
 {% block main %}
 	<main class="homepage">
 		<div class="bg-img hide-on-small-only">
@@ -11,7 +13,7 @@
 			
 			<div class="container">
 
-				<div class="row page-header">
+				<div class="row brand">
 					<div class="col s12 m12 l12">
 						<div><img src="{% static 'img/brand.png' %}"></div>
 					</div>
@@ -23,8 +25,10 @@
 						<div class="hero">
 							<ul id="hero-items">
 								<li><h1>You Only <br class="hide-on-med-and-down">Live Once</h1></li>
-								<li><h3>Get more out of life <br class="hide-on-med-and-down">with a bucket list.</h3></li>
-								<li><p><a href="https://www.youtube.com/embed/noERj29pgLw?rel=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flifeaweso.me" target="_blank"><i class="small material-icons">play_circle_outline</i> Watch the YOLO video</a></p></li>
+								<li><h4>Get more out of life <br class="hide-on-med-and-down">with a bucket list.</h4></li>
+								<li><p><a href="https://www.youtube.com/embed/noERj29pgLw?rel=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flifeaweso.me" target="_blank">
+								<i class="small mdi-av-play-circle-outline"></i> Watch the YOLO video
+								</a></p></li>
 							</ul>
 						</div>
 					</div>

@@ -51,4 +51,15 @@ $(document).ready(function() {
     //show the hero items using staggered list effect:
     Materialize.showStaggeredList('#hero-items');
 
+
+    //----------------------------------------
+    //  Sidebar:
+    //----------------------------------------
+
+    //initialize the Materialize Sidenav:
+    $(".button-collapse").sideNav();
+
+    Materialize.showStaggeredList('.user-options');
+
+
 });
