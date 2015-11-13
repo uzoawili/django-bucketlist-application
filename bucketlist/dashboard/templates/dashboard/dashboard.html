@@ -7,7 +7,6 @@
   <main class="dashboard">
 
     <nav>
-
       <!-- sidebar, collapses on smaller screens -->
       <div id="slide-out" class="side-nav fixed">
         <div class="container">
@@ -26,7 +25,7 @@
       </div> <!-- end slide-out side-nav -->
 
 
-      <!-- page header bar containg title and options, search etc -->
+      <!-- page header bar containing title, options, search etc -->
       <div class="page-header valign-wrapper">
 
         <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
@@ -43,9 +42,11 @@
 
     </nav>
 
+    <section class="scrollable-content">
     {% block page %}
 
     {% endblock page %}
+    </section>
 
   </main>
 {% endblock main %}

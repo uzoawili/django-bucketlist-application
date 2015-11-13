@@ -58,8 +58,20 @@ $(document).ready(function() {
 
     //initialize the Materialize Sidenav:
     $(".button-collapse").sideNav();
-
     Materialize.showStaggeredList('.user-options');
+
+
+    //----------------------------------------
+    //  Modals:
+    //----------------------------------------
+
+    
+    $('.modal-trigger').leanModal({
+
+      dismissible: true,
+      opacity: .95,
+
+    });
 
 
 });

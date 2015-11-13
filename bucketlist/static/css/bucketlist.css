@@ -191,12 +191,12 @@ html, body, .viewport-container {
   display: inline-block;
 }
 
-.dashboard .page-header, .dashboard .page-content {
+.dashboard .page-header, .dashboard .scrollable-content {
   padding-left: 240px;
 }
 
 @media only screen and (max-width: 992px) {
-  .dashboard .page-header, .dashboard .page-content {
+  .dashboard .page-header, .dashboard .scrollable-content {
     padding-left: 0;
   }
 }

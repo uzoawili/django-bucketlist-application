@@ -109,6 +109,7 @@ class BucketListsView(View):
         
         context = {
             'sidebar_tab_index': 1,
+            'form': SignupForm(),
         }
         context.update(csrf(self.request))
         return render(self.request, 'dashboard/bucketlists.html', context)

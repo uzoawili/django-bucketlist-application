@@ -1,9 +1,48 @@
 {% extends "dashboard/dashboard.html" %}
 {% load static %}
 
-{% block window_title %}Dashboard | Bucket Lists{% endblock window_title %}
+{% block window_title %}Dashboard - Bucket Lists{% endblock window_title %}
 {% block view_title %}My Bucket Lists{% endblock view_title %}</h3>
 
 {% block page %}
-	{# {{ welcome_msg }} #}
+
+		<!-- Modal Trigger -->
+		<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add New</a>
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+			
+			<form method="POST" action="">
+			{% csrf_token %}
+			
+				<div class="modal-content">
+					
+					<div class="row">
+						<div class="col s12">
+							<h4>New Bucket List</h4>
+						</div>
+					</div>
+
+					<div class="row">
+						{% for field in form %}
+							<div class="input-field col s12">
+									<label for="{{ field.id_for_label }}">
+											{{ field.label }}
+									</label>
+									{{ field }}
+							</div>
+						{% endfor %}
+					</div>
+
+				</div>
+				
+				<div class="modal-footer">
+					<button class="btn btn-large modal-action modal-close waves-effect waves-green" type="submit" name="save">Save Changes</button>
+					<button class="btn-flat btn-large waves-effect waves-dark">Cancel</button>
+				</div>
+
+			</form>
+
+		</div>
+
 {% endblock page %}
