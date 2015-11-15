@@ -6,7 +6,7 @@
 {% block main %}
 	<main class="homepage">
 		<div class="bg-img hide-on-small-only">
-			{% include "dashboard/slideshow_snippet.html" with form=signup_form %}
+			{% include "dashboard/snippet_slideshow.html" with form=signup_form %}
 		</div>
 		<div class="bg-overlay"></div>
 		<div class="scrollable-content">
@@ -24,10 +24,10 @@
 					<div class="col s12 m12 l7">
 						<div class="hero">
 							<ul id="hero-items">
-								<li><h1>You Only <br class="hide-on-med-and-down">Live Once</h1></li>
-								<li><h4>Get more out of life <br class="hide-on-med-and-down">with a bucket list.</h4></li>
-								<li><p><a href="https://www.youtube.com/embed/noERj29pgLw?rel=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flifeaweso.me" target="_blank">
-								<i class="small mdi-av-play-circle-outline"></i> Watch the YOLO video
+								<li><h1 class="main-line">You Only <br class="hide-on-med-and-down">Live Once</h1></li>
+								<li><h4 class="sub-line">Get more out of life <br class="hide-on-med-and-down">with a bucket list.</h4></li>
+								<li><p class="action-line"><a href="https://www.youtube.com/embed/noERj29pgLw?rel=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flifeaweso.me" target="_blank">
+								<i class="small mdi-av-play-circle-outline inline-icon"></i> Watch the YOLO video
 								</a></p></li>
 							</ul>
 						</div>
@@ -35,8 +35,8 @@
 
 					<div class="col s12 m12 l5">
 						<div class="auth-panels right" data-active-auth-index="{{ active_auth_index }}">
-								{% include "dashboard/signup_snippet.html" with form=signup_form %}
-								{% include "dashboard/signin_snippet.html" with form=signin_form %}
+								{% include "dashboard/snippet_signup.html" with form=signup_form %}
+								{% include "dashboard/snippet_signin.html" with form=signin_form %}
 						</div>
 					</div>
 

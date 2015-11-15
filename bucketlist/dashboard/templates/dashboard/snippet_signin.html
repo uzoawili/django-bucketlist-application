@@ -1,8 +1,8 @@
 <div class="panel">
   <div class="row">
-
+  
     <div class="col s12">
-      <h4>Sign up</h4>
+      <h4>Sign in</h4>
     </div>
     
     <form method="POST" action="" class="col s12">
@@ -19,20 +19,26 @@
         {% endfor %}
 
         <div class="col s12">
-          <p class="messages center-align truncate tiny">{{ validation_msg }}</p>
+          <p class="messages center-align truncate tiny">
+          {% if messages %}
+              {% for message in messages %}
+              {{ message }}&nbsp;
+              {% endfor %}
+          {% endif %}
+          </p>
         </div>
 
         <div class="col s12">
-          <button class="btn btn-large waves-effect waves-dark" type="submit" name="signup">Get Started</button>
+          <button class="btn btn-large waves-effect waves-dark" type="submit" name="signin">Sign in</button>
         </div>
 
       </div>
     </form>
 
     <div class="col s12">
-      <p class="auth-link center-align ">Already have an account? <a href="#" id="signin-link" >{{ "Sign in" | upper }}</a></p>
+      <p class="auth-link center-align" >Don't have an account yet? <a href="#" id="signup-link" >{{ "Sign up" | upper }}</a></p>
     </div>
-    
+
   </div>
 </div>
 

@@ -12,8 +12,8 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-    name = models.TextField(blank=False)
-    description = models.TextField(blank=False)
+    name = models.CharField(max_length=250, blank=False, null=False)
+    description = models.TextField(blank=True, default='')
     date_created = models.DateField(auto_now_add=True)
     date_modified = models.DateField(auto_now=True)
 

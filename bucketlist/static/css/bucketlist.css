@@ -4,6 +4,30 @@ html, body, .viewport-container {
   min-height: 100%;
 }
 
+.scrollable-content {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+  overflow: scroll;
+  z-index: 10;
+}
+
+i.inline-icon {
+  display: inline-block;
+  position: relative;
+  top: 5px;
+}
+
+.empty-prompt {
+  height: 80%;
+}
+
+.empty-prompt > * {
+  width: 100%;
+  text-align: center;
+}
+
 .homepage {
   width: 100%;
   height: 100%;
@@ -47,15 +71,6 @@ html, body, .viewport-container {
   z-index: 5;
 }
 
-.homepage > .scrollable-content {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  position: relative;
-  overflow: scroll;
-  z-index: 10;
-}
-
 .homepage .container {
   position: relative;
   min-height: 100%;
@@ -79,22 +94,16 @@ html, body, .viewport-container {
   opacity: 0;
 }
 
-.homepage .hero h1, .homepage .hero h4, .homepage .hero p {
+.homepage .hero > * {
   margin: 30px 0;
 }
 
-.homepage .hero h4 {
+.homepage .hero .sub-line {
   color: #00b285;
 }
 
-.homepage .hero p a {
+.homepage .hero .action-line a {
   color: #cccdd0;
-}
-
-.homepage .hero p a i {
-  display: inline-block;
-  position: relative;
-  top: 5px;
 }
 
 .homepage .auth-panels {
@@ -199,4 +208,14 @@ html, body, .viewport-container {
   .dashboard .page-header, .dashboard .scrollable-content {
     padding-left: 0;
   }
+}
+
+.dashboard .thumb-list {
+  padding: 0 15px;
+  margin-bottom: 100px;
+}
+
+.dashboard .thumb-list li {
+  border-radius: 10px;
+  overflow: hidden;
 }

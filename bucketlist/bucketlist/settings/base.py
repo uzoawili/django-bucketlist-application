@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_nose',
+    'widget_tweaks',
     'dashboard',
     'api',
 )
@@ -72,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bucketlist.wsgi.application'
 
-#Authentication backends
+# Authentication backends:
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -118,3 +119,12 @@ STATICFILES_FINDERS = (
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+
+# Dashboard app settings
+
+DASHBOARD_PAGE_LIMIT = 10
+
+DASHBOARD_PAGE_ORPHANS = 2
+
+

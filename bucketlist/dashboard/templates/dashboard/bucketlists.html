@@ -5,44 +5,31 @@
 {% block view_title %}My Bucket Lists{% endblock view_title %}</h3>
 
 {% block page %}
+	<!-- Add New button -->
+	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
+    <button data-target="new-bucketlist-modal" class="btn-floating btn-large waves-effect waves-light modal-trigger">
+    	<i class="material-icons">add</i>
+    </button>
+  </div>
 
-		<!-- Modal Trigger -->
-		<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add New</a>
-
-		<!-- Modal Structure -->
-		<div id="modal1" class="modal">
-			
-			<form method="POST" action="">
-			{% csrf_token %}
-			
-				<div class="modal-content">
-					
-					<div class="row">
-						<div class="col s12">
-							<h4>New Bucket List</h4>
-						</div>
-					</div>
-
-					<div class="row">
-						{% for field in form %}
-							<div class="input-field col s12">
-									<label for="{{ field.id_for_label }}">
-											{{ field.label }}
-									</label>
-									{{ field }}
-							</div>
-						{% endfor %}
-					</div>
-
-				</div>
-				
-				<div class="modal-footer">
-					<button class="btn btn-large modal-action modal-close waves-effect waves-green" type="submit" name="save">Save Changes</button>
-					<button class="btn-flat btn-large waves-effect waves-dark">Cancel</button>
-				</div>
-
-			</form>
-
-		</div>
+  {% if bucketlists|length %}
+    <ul class="thumb-list">
+      {% for bucketlist in bucketlists %}
+        {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
+      {% endfor %}
+    </ul>
+  {% else %}
+  <!-- empty prompt -->
+  <div class="container valign-wrapper empty-prompt">
+    <div>
+      <h5 class="valign">You currently have no bucket lists.</h5>
+      <h5> Use the '+' button below to create a new bucket list.</h5>
+    </div>
+  </div>
+	{% endif %}
 
 {% endblock page %}
+
+{% block modals %}
+	{% include "dashboard/modal_new_bucketlist.html" with form=bucketlist_form %}
+{% endblock modals %}

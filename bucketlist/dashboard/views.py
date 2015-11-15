@@ -2,17 +2,18 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.core.validators import ValidationError
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView
-
-from django.http import HttpResponse
+from django.conf import settings
 
 from models import BucketList
-from forms import SignupForm, SigninForm
+from forms import SignupForm, SigninForm, BucketListForm, BucketListItemForm
+from utils import SerializedHtmlResponse
+
 
 
 class IndexView(View):
@@ -46,8 +47,6 @@ class IndexView(View):
             active_auth_index = 1
 
         else:  return self.render_home_view()
-            
-        validation_msg = ""
 
         if auth_form.is_valid():
             # get the auth params:
@@ -61,14 +60,13 @@ class IndexView(View):
                 # redirect to the dashboard/bucketlists view:
                 return redirect(reverse('dashboard:bucketlists'))
             
-            else: validation_msg = self.validation_msgs.get('auth_error')
-        else: validation_msg = self.validation_msgs.get('invalid_params')
+            else: messages.error(request, self.validation_msgs.get('auth_error'))
+        else: messages.error(request, self.validation_msgs.get('invalid_params'))
         
         # render with invalid form and msgs:
         return self.render_home_view(**{
             auth_form_name: auth_form,
             'active_auth_index': active_auth_index,
-            'validation_msg': validation_msg,
         }) 
 
 
@@ -78,6 +76,7 @@ class IndexView(View):
         active_auth_index = 0000, \
         validation_msg = "" \
         ):
+
         # otherwise show home view:
         context = {
             'signup_form': signup_form,
@@ -98,19 +97,77 @@ class IndexView(View):
             return None
 
 
-# class BucketListsView(ListView):
+
 class BucketListsView(View):
-    # context_object_name = 'bucketlists'
-    # queryset = BucketList.objects.filter(publisher__name='Acme Publishing')
-    # template_name = 'dashboard/bucketlists.html'
+    
+
+    validation_msgs = {
+        'invalid_params': 'Some required fields were omitted or invalid',
+    }
+
 
     @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(BucketListsView, self).dispatch(*args, **kwargs)
+
+
     def get(self, request, *args, **kwargs):
-        
+        """ 
+        Shows all [or searches] the bucketlists created by the current user. 
+        """
+        # get any search options from the request:
+        options = request.GET.dict()
+        # get user's bucketlists:
+        results = BucketList.objects.filter(creator=request.user)
+        # search if query is specified:
+        q = options.get('q')
+        if q:
+            results = BucketList.objects.filter(name__icontains=q)
+        # prepare the context:
         context = {
+            'bucketlists': results.all(),
             'sidebar_tab_index': 1,
-            'form': SignupForm(),
+            'bucketlist_form': BucketListForm(auto_id=True),
         }
-        context.update(csrf(self.request))
-        return render(self.request, 'dashboard/bucketlists.html', context)
+        context.update(csrf(request))
+        # return the rendered template response:
+        return render(request, 'dashboard/bucketlists.html', context)
+
+
+    def post(self, request, *args, **kwargs):
+        """ 
+        Creates a new bucket list for the current user. 
+        """
+        bucketlist_form = BucketListForm(request.POST, auto_id=True)
+
+        if bucketlist_form.is_valid():
+            # save the bucket list to db:
+            bucketlist = bucketlist_form.save(commit=False)
+            bucketlist.creator = request.user
+            bucketlist.save()
+            # render and return the created bucketlist's thumbnail:
+            return SerializedHtmlResponse (
+                request, 
+                context_dict = {'bucketlist': bucketlist}, 
+                template_name = 'dashboard/snippet_bucketlist_thumb.html', 
+                operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
+                status_text = SerializedHtmlResponse.SUCCESS
+            )
+
+        else: messages.error(request, self.validation_msgs.get('invalid_params'))
+
+        # return the rendered modal with invalid form:
+        return SerializedHtmlResponse (
+            request, 
+            context_dict = {'form': bucketlist_form,}, 
+            template_name = 'dashboard/modal_new_bucketlist.html', 
+            operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
+            status_text = SerializedHtmlResponse.INVALID
+        )
+ 
+
+
+
+
+
 
