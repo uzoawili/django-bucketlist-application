@@ -47,12 +47,12 @@ class SerializedHtmlResponse(HttpResponse):
     UPDATE_BUCKET_LIST_ITEM = 'update_bucket_list_item'
     DELETE_BUCKET_LIST_ITEM = 'delete_bucket_list_item'
 
-    # status texts:
+    # statuses:
     SUCCESS = 'success'
     INVALID = 'invalid'
 
 
-    def __init__(self, request, context_dict, template_name, operation, status_text):
+    def __init__(self, request, context_dict, template_name, operation, status):
         # prepare the request context:
         context = RequestContext(request, context_dict)
         # get the template:
@@ -62,14 +62,14 @@ class SerializedHtmlResponse(HttpResponse):
         # prepare the json response data:
         json_response = json.dumps({
             'operation': operation,
-            'status_text': status_text,
+            'status': status,
             'html': rendered_template,
         })
         # set the response status code
         status_code = 200
         if(operation == self.CREATE_BUCKET_LIST or \
            operation == self.CREATE_BUCKET_LIST_ITEM) and \
-           status_text == self.SUCCESS:
+           status == self.SUCCESS:
             status_code = 201
 
         # initialize the HttpResponse with this content:

@@ -151,7 +151,7 @@ class BucketListsView(View):
                 context_dict = {'bucketlist': bucketlist}, 
                 template_name = 'dashboard/snippet_bucketlist_thumb.html', 
                 operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
-                status_text = SerializedHtmlResponse.SUCCESS
+                status = SerializedHtmlResponse.SUCCESS
             )
 
         else: messages.error(request, self.validation_msgs.get('invalid_params'))
@@ -159,10 +159,10 @@ class BucketListsView(View):
         # return the rendered modal with invalid form:
         return SerializedHtmlResponse (
             request, 
-            context_dict = {'form': bucketlist_form,}, 
+            context_dict = {'form': bucketlist_form}, 
             template_name = 'dashboard/modal_new_bucketlist.html', 
             operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
-            status_text = SerializedHtmlResponse.INVALID
+            status = SerializedHtmlResponse.INVALID
         )
  
 

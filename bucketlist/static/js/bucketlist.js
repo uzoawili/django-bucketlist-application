@@ -3,6 +3,16 @@
 $(document).ready(function() {
 
   //----------------------------------------
+  //  Staggered list effect:
+  //----------------------------------------
+
+  //show the hero items using staggered list effect:
+  Materialize.showStaggeredList('#hero-items');
+  Materialize.showStaggeredList('.user-options');
+  Materialize.showStaggeredList('.thumb-list');
+
+
+    //----------------------------------------
   //  Background Slideshow:
   //----------------------------------------
 
@@ -51,7 +61,7 @@ $(document).ready(function() {
   //----------------------------------------
 
   //initialize the Materialize Sidenav:
-  $(".button-collapse").sideNav();
+  $('.button-collapse').sideNav();
   
 
 
@@ -59,59 +69,91 @@ $(document).ready(function() {
   //  Modals:
   //----------------------------------------
 
+  // initialize MaterializeCSS lean modals on the triggers
   $('.modal-trigger').leanModal({
-
     dismissible: true,
     opacity: .95,
-
   });
+
+  // set listeners for modal trigger click and submit:
 
   $('.modal-trigger').on('click', function(){
-
+    targetForm = $("#" + $(this).data('target') + " form");
+    targetAction = $(this).data('targetAction');
+    targetMethod = $(this).data('targetMethod');
+    if(targetForm){
+      if(targetAction) targetForm.attr('action', targetAction);
+      if(targetMethod) targetForm.attr('method', targetMethod);
+    }
   });
 
-
-  //----------------------------------------
-  //  Staggered list effect:
-  //----------------------------------------
-
-  //show the hero items using staggered list effect:
-  Materialize.showStaggeredList('#hero-items');
-  Materialize.showStaggeredList('.user-options');
-  Materialize.showStaggeredList('.thumb-list');
-
-
-
-
-
-  modalForms = $('.modal form');
-  modalForms.on('submit', function(event){
+  $('.modal form').on('submit', function(event){
     event.preventDefault();
     submitForm(this);
   });
+
+  // map the form operations to response handler functions:
+  formResponseHandlers = {
+    'create_bucket_list': onCreateBucketList
+    // 'update_bucket_list':,
+    // 'delete_bucket_list':,
+    // 'create_bucket_list_item':,
+    // 'update_bucket_list_item':,
+    // 'delete_bucket_list_item':
+  };
 
   function submitForm(form) {
     $.ajax({
       url : form.action,
       type : form.method,
       data : $(form).serialize(),
+      dataType: 'json',
       headers: {
         'X-CSRFToken': $(form).find('input[name="csrfmiddlewaretoken"]').val()
       },
-      success : function(data, textStatus, jqXHR) {
-        console.log(data);
-        console.log(jqXHR.statusCode());
+      success : function(json_response) {
+        try{ 
+          //call the appropriate response handler function:
+          responseHandler = formResponseHandlers[json_response.operation];
+          responseHandler(json_response);
+        } catch(e){
+          // show error message:
+          onFormSubmitError(form);
+        }
       },
       error : function() {
-        messages = $(form).find('.messages');
-        messages.text('Sorry, something went wrong. Your request could not be completed.');
+        // show error message:
+        onFormSubmitError(form);
       }
     });
   };
 
+  function onFormSubmitError(form) {
+    messages = $(form).find('.messages');
+    messages.text('Sorry, something went wrong. Your request could not be completed.');
+  }
 
+  function onCreateBucketList(response){
+    $modal = $('#new-bucketlist-modal')
+    if (response.status == 'success'){
+      // crreate the thumblist if it doesn't exist:
+      if (! $('.thumb-list-container .thumb-list').length){
+        $('.thumb-list-container').empty().append('<ul class="thumb-list"></ul>');
+      }
+      // add new item to the thumbs-list:
+      $('.thumb-list').prepend(response.html);
+      // close the modal:
+      $modal.closeModal();
+      //show toast:
+      Materialize.toast('Bucket list added. Noice!', 4000);
 
-
+    } else if (response.status == 'invalid'){
+      // replace the content of the modal with the response data:
+      $modal.html(response.html);
+      // show the modal again if it happened to closed:
+      $modal.showModal();
+    }
+  }
 
 
 

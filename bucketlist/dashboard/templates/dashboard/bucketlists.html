@@ -7,26 +7,29 @@
 {% block page %}
 	<!-- Add New button -->
 	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
-    <button data-target="new-bucketlist-modal" class="btn-floating btn-large waves-effect waves-light modal-trigger">
+    <button class="modal-trigger btn-floating btn-large waves-effect waves-light" data-target="new-bucketlist-modal" data-target-action="{% url 'dashboard:bucketlists'%}" data-target-method="POST">
     	<i class="material-icons">add</i>
     </button>
   </div>
 
-  {% if bucketlists|length %}
-    <ul class="thumb-list">
-      {% for bucketlist in bucketlists %}
-        {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
-      {% endfor %}
-    </ul>
-  {% else %}
-  <!-- empty prompt -->
-  <div class="container valign-wrapper empty-prompt">
-    <div>
-      <h5 class="valign">You currently have no bucket lists.</h5>
-      <h5> Use the '+' button below to create a new bucket list.</h5>
+  <div class="thumb-list-container">
+    {% if bucketlists|length %}
+      <!-- thumbnail list -->
+      <ul class="thumb-list">
+        {% for bucketlist in bucketlists %}
+          {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
+        {% endfor %}
+      </ul>
+    {% else %}
+    <!-- empty prompt -->
+    <div class="container valign-wrapper empty-prompt">
+      <div>
+        <h5 class="valign">You currently have no bucket lists.</h5>
+        <h5> Use the '+' button below to create a new bucket list.</h5>
+      </div>
     </div>
+  	{% endif %}
   </div>
-	{% endif %}
 
 {% endblock page %}
 
