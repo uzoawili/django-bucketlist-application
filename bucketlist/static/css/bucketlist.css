@@ -28,6 +28,32 @@ i.inline-icon {
   text-align: center;
 }
 
+.more-btn {
+  background-color: #cccdd0;
+}
+
+.fixed-action-btn.horizontal ul {
+  list-style: none outside none;
+  padding: 0px 0px;
+  text-align: right;
+  right: 120%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+  height: 100%;
+  left: initial;
+  width: auto;
+}
+
+.fixed-action-btn.horizontal ul li {
+  display: inline-block;
+}
+
+.fixed-action-btn.horizontal ul li {
+  margin: 0 2px;
+}
+
 .homepage {
   width: 100%;
   height: 100%;
@@ -216,10 +242,39 @@ i.inline-icon {
   min-height: 100%;
 }
 
-.dashboard .thumb-list .card-panel {
+.dashboard .thumb-list-container .bucketlist-thumb {
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  position: relative;
   opacity: 0;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb:hover {
+  -webkit-transition: box-shadow 0.25s;
+          transition: box-shadow 0.25s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb .name {
+  color: #00b285;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb .stats {
+  opacity: 0.5;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb .fixed-action-btn.horizontal {
+  position: absolute;
+  display: inline-block;
+  top: 15px;
+  right: 20px;
+  height: 37px;
+  padding: 0;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb .fixed-action-btn.horizontal ul {
+  width: 200px;
 }
 
 .dashboard .packery-grid {
