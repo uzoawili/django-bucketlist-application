@@ -100,11 +100,9 @@ class IndexView(View):
 
 class BucketListsView(View):
     
-
     validation_msgs = {
         'invalid_params': 'Some required fields were omitted or invalid',
     }
-
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

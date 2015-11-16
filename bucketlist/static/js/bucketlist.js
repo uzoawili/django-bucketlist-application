@@ -13,6 +13,32 @@ $(document).ready(function() {
 
 
     //----------------------------------------
+
+
+  //----------------------------------------
+  //  Packery grids:
+  //----------------------------------------
+    
+  // initialize Packery on the grids:
+  var $grid = $('.packery-grid');
+
+  $grid.packery({
+
+      'itemSelector': '.grid-item',
+      'columnWidth': '.grid-sizer',
+      'gutter': '.gutter-sizer',
+      'percentPosition': true,
+      'isResizeBound': true
+
+  });
+  // call packery layout everytime an item's image loads:
+  // $grid.find('.item-image-wrapper img').load(function() {
+  //     $grid.packery();
+  // });
+
+
+
+  //----------------------------------------
   //  Background Slideshow:
   //----------------------------------------
 
@@ -25,6 +51,7 @@ $(document).ready(function() {
     interval: 10000
 
   });
+
 
   //----------------------------------------
   //  Auth Panels:

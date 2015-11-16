@@ -15,11 +15,14 @@
   <div class="thumb-list-container">
     {% if bucketlists|length %}
       <!-- thumbnail list -->
-      <ul class="thumb-list">
+      <ul class="thumb-list packery-grid">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
         {% for bucketlist in bucketlists %}
           {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
         {% endfor %}
       </ul>
+
     {% else %}
     <!-- empty prompt -->
     <div class="container valign-wrapper empty-prompt">
