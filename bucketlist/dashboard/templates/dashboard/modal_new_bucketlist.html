@@ -1,54 +1,15 @@
-{% load widget_tweaks %}
-
 <!-- new bucket list modal -->
 <div id="new-bucketlist-modal" class="modal">
-  
+
+  <div class="row">
+    <div class="col s12">
+      <h4>New Bucket List</h4>
+    </div>
+  </div>
+
   <form method="" action="">
-  {% csrf_token %}
-    
-    <div class="modal-content">
-      
-      <div class="row">
-        <div class="col s12">
-          <h4>New Bucket List</h4>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col s12">
-          <p class="messages truncate tiny">
-          {% if messages %}
-              {% for message in messages %}
-              {{ message }}&nbsp;
-              {% endfor %}
-          {% endif %}
-          </p>
-        </div>
-      </div>
-      
-      <div class="row">
-        {% for field in form %}
-          <div class="input-field col s12">
-            
-            <label for="{{ field.id_for_label }}">
-              {{ field.label }}
-            </label>
-
-            {% if field|widget_type == 'textarea' %}
-              {% render_field field  class+="materialize-textarea" %}
-            {% else %}
-              {% render_field field %}
-            {% endif %}
-
-          </div>
-        {% endfor %}
-      </div>
-
-    </div>
-    
-    <div class="modal-footer">
-      <button class="btn btn-large modal-action waves-effect waves-green" type="submit" name="save">Save</button>
-    </div>
+  {% include "dashboard/snippet_bucketlist_form.html" with form=form %}
 
   </form>
 

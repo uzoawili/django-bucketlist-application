@@ -94,7 +94,7 @@ $(document).ready(function() {
 
   // map the form operations to response handler functions:
   formResponseHandlers = {
-    'create_bucket_list': onCreateBucketList
+    'create_bucket_list': createBucketListHandler
     // 'update_bucket_list':,
     // 'delete_bucket_list':,
     // 'create_bucket_list_item':,
@@ -112,32 +112,29 @@ $(document).ready(function() {
         'X-CSRFToken': $(form).find('input[name="csrfmiddlewaretoken"]').val()
       },
       success : function(json_response) {
-        try{ 
-          //call the appropriate response handler function:
-          responseHandler = formResponseHandlers[json_response.operation];
-          responseHandler(json_response);
-        } catch(e){
-          // show error message:
-          onFormSubmitError(form);
-        }
+        //get the appropriate response handler function:
+        var responseHandler = formResponseHandlers[json_response.operation];
+        // call the responseHandler with the response:
+        if(responseHandler) responseHandler(json_response);
+        else formSubmitErrorHandler(form);
       },
       error : function() {
         // show error message:
-        onFormSubmitError(form);
+        formSubmitErrorHandler(form);
       }
     });
   };
 
-  function onFormSubmitError(form) {
+  function formSubmitErrorHandler(form) {
     messages = $(form).find('.messages');
     messages.text('Sorry, something went wrong. Your request could not be completed.');
   }
 
-  function onCreateBucketList(response){
+  function createBucketListHandler(response){
     $modal = $('#new-bucketlist-modal')
     if (response.status == 'success'){
-      // crreate the thumblist if it doesn't exist:
-      if (! $('.thumb-list-container .thumb-list').length){
+      // create the thumblist if it doesn't exist:
+      if (!($('.thumb-list-container .thumb-list').length)){
         $('.thumb-list-container').empty().append('<ul class="thumb-list"></ul>');
       }
       // add new item to the thumbs-list:
@@ -148,10 +145,8 @@ $(document).ready(function() {
       Materialize.toast('Bucket list added. Noice!', 4000);
 
     } else if (response.status == 'invalid'){
-      // replace the content of the modal with the response data:
-      $modal.html(response.html);
-      // show the modal again if it happened to closed:
-      $modal.showModal();
+      // replace the content of the modal form with the response data:
+      $modal.find('form').html(response.html);
     }
   }
 

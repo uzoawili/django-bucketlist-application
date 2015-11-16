@@ -160,7 +160,7 @@ class BucketListsView(View):
         return SerializedHtmlResponse (
             request, 
             context_dict = {'form': bucketlist_form}, 
-            template_name = 'dashboard/modal_new_bucketlist.html', 
+            template_name = 'dashboard/snippet_bucketlist_form.html', 
             operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
             status = SerializedHtmlResponse.INVALID
         )
