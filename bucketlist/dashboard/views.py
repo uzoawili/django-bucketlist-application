@@ -98,72 +98,41 @@ class IndexView(View):
 
 
 
-class BucketListsView(View):
-    
-    validation_msgs = {
-        'invalid_params': 'Some required fields were omitted or invalid',
-    }
+class BucketListsView(ListView):
 
+    template_name =  'dashboard/bucketlists.html'
+    ordering = ['-date_created',]
+    context_object_name = 'bucketlists'
+    paginate_by = settings.DASHBOARD_PAGE_LIMIT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(BucketListsView, self).dispatch(*args, **kwargs)
 
 
-    def get(self, request, *args, **kwargs):
+    def get_queryset(self):
         """ 
-        Shows all [or searches] the bucketlists created by the current user. 
+        Returns the queryset of bucketlists created by the current user. 
         """
-        # get any search options from the request:
-        options = request.GET.dict()
+        # get any search param from the request:
+        get_params = self.request.GET.dict()
         # get user's bucketlists:
-        results = BucketList.objects.filter(creator=request.user)
-        # search if query is specified:
-        q = options.get('q')
+        results = BucketList.objects.filter(creator=self.request.user)
+        # search if param is specified:
+        q = get_params.get('q')
         if q:
             results = BucketList.objects.filter(name__icontains=q)
-        # prepare the context:
-        context = {
-            'bucketlists': results.all(),
-            'sidebar_tab_index': 1,
-            'bucketlist_form': BucketListForm(auto_id=True),
-        }
-        context.update(csrf(request))
-        # return the rendered template response:
-        return render(request, 'dashboard/bucketlists.html', context)
+
+        return results
 
 
-    def post(self, request, *args, **kwargs):
-        """ 
-        Creates a new bucket list for the current user. 
+    def get_context_data(self, **kwargs):
         """
-        bucketlist_form = BucketListForm(request.POST, auto_id=True)
-
-        if bucketlist_form.is_valid():
-            # save the bucket list to db:
-            bucketlist = bucketlist_form.save(commit=False)
-            bucketlist.creator = request.user
-            bucketlist.save()
-            # render and return the created bucketlist's thumbnail:
-            return SerializedHtmlResponse (
-                request, 
-                context_dict = {'bucketlist': bucketlist}, 
-                template_name = 'dashboard/snippet_bucketlist_thumb.html', 
-                operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
-                status = SerializedHtmlResponse.SUCCESS
-            )
-
-        else: messages.error(request, self.validation_msgs.get('invalid_params'))
-
-        # return the rendered modal with invalid form:
-        return SerializedHtmlResponse (
-            request, 
-            context_dict = {'form': bucketlist_form}, 
-            template_name = 'dashboard/snippet_bucketlist_form.html', 
-            operation = SerializedHtmlResponse.CREATE_BUCKET_LIST, 
-            status = SerializedHtmlResponse.INVALID
-        )
- 
-
+        Returns the context that will used to render the template.
+        """
+        context = super(BucketListsView, self).get_context_data(**kwargs)
+        context['sidebar_tab_index'] = 1
+        return context
 
 
 

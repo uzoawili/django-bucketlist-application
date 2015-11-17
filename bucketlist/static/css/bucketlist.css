@@ -243,38 +243,47 @@ i.inline-icon {
 }
 
 .dashboard .thumb-list-container .bucketlist-thumb {
-  border-radius: 10px;
-  overflow: visible;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   position: relative;
   opacity: 0;
 }
 
-.dashboard .thumb-list-container .bucketlist-thumb:hover {
+.dashboard .thumb-list-container .bucketlist-thumb a.info {
+  border-radius: 10px;
+  overflow: visible;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  display: block;
+  margin: 0;
+  color: #171c22;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb a.info .name {
+  color: #00b285;
+  width: 80%;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb a.info .stats {
+  opacity: 0.5;
+}
+
+.dashboard .thumb-list-container .bucketlist-thumb a.info:hover {
   -webkit-transition: box-shadow 0.25s;
           transition: box-shadow 0.25s;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.dashboard .thumb-list-container .bucketlist-thumb .name {
-  color: #00b285;
-}
-
-.dashboard .thumb-list-container .bucketlist-thumb .stats {
-  opacity: 0.5;
-}
-
 .dashboard .thumb-list-container .bucketlist-thumb .fixed-action-btn.horizontal {
   position: absolute;
   display: inline-block;
-  top: 15px;
+  top: 20px;
   right: 20px;
   height: 37px;
   padding: 0;
+  overflow: visible;
 }
 
 .dashboard .thumb-list-container .bucketlist-thumb .fixed-action-btn.horizontal ul {
   width: 200px;
+  overflow: visible;
 }
 
 .dashboard .packery-grid {
