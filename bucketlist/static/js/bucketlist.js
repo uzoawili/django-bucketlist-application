@@ -9,7 +9,7 @@ $(document).ready(function() {
   //show the hero items using staggered list effect:
   Materialize.showStaggeredList('#hero-items');
   Materialize.showStaggeredList('.user-options');
-  Materialize.showStaggeredList('.thumb-list');
+  // Materialize.showStaggeredList('.thumb-list');
 
 
     //----------------------------------------

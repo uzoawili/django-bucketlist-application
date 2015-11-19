@@ -6,13 +6,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.utils.decorators import method_decorator
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView, CreateView, DeleteView
+from django.views.generic.edit import UpdateView
 from django.conf import settings
 
 from models import BucketList
 from forms import SignupForm, SigninForm, BucketListForm, BucketListItemForm
 from utils import SerializedHtmlResponse
+
+
+
+class LoginRequiredMixin(object):
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(LoginRequiredMixin, cls).as_view(**initkwargs)
+        return login_required(view)
 
 
 
@@ -98,16 +106,12 @@ class IndexView(View):
 
 
 
-class BucketListsView(ListView):
+class BucketListsView(LoginRequiredMixin, ListView):
 
     template_name =  'dashboard/bucketlists.html'
     ordering = ['-date_created',]
     context_object_name = 'bucketlists'
-    paginate_by = settings.DASHBOARD_PAGE_LIMIT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(BucketListsView, self).dispatch(*args, **kwargs)
+    paginate_by = settings.DASHBOARD_PAGE_LIMIT
 
 
     def get_queryset(self):
@@ -133,6 +137,97 @@ class BucketListsView(ListView):
         context = super(BucketListsView, self).get_context_data(**kwargs)
         context['sidebar_tab_index'] = 1
         return context
+
+
+
+class BucketListEditView(LoginRequiredMixin):
+    """
+    Base class for BucketList create and update views.
+    """
+    form_class = BucketListForm
+    template_name = 'dashboard/bucketlist_edit.html'
+    success_toast = ''
+
+    def get_success_url(self):
+        """
+        Determines the url to redirect to after processing a valid form
+        """
+        if self.success_toast:
+            messages.info(self.request, self.success_toast)
+        return reverse('dashboard:bucketlists') 
+
+
+    def get_queryset(self):
+        return BucketList.objects.filter(creator=self.request.user)
+
+
+
+class BucketListCreateView(BucketListEditView, CreateView):
+    """
+    View for creating a BucketList.
+    """
+    success_toast = 'Bucket List created, nice!'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the view.
+        """
+        context = super(BucketListCreateView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Create Bucket List', 
+            'sidebar_tab_index': 1, 
+        })
+        return context
+
+    def form_valid(self, form):
+        """
+        Saves the object referenced by the form, sets the current object for the view, 
+        and redirects to get_success_url()
+        """
+        bucketlist = form.save(commit=False)
+        bucketlist.creator = self.request.user
+        bucketlist.save()
+        self.object = bucketlist
+        return redirect(self.get_success_url())
+
+
+
+class BucketListUpdateView(BucketListEditView, UpdateView):
+    """
+    View for updating a BucketList.
+    """
+    success_toast = 'Bucket List updated, cool!'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the view.
+        """
+        context = super(BucketListUpdateView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Update Bucket List', 
+            'sidebar_tab_index': 1, 
+        })
+        return context
+
+
+class BucketListDeleteView(BucketListEditView, DeleteView):
+    """
+    View for deleteing a BucketList.
+    """
+    success_toast = 'Bucket List discarded!'
+    template_name = 'dashboard/bucketlist_delete.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the view.
+        """
+        context = super(BucketListDeleteView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Update Bucket List',
+            'sidebar_tab_index': 1, 
+        })
+        return context
+
 
 
 

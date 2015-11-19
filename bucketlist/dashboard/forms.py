@@ -29,7 +29,7 @@ class SigninForm(HTML5RequiredMixin, AuthenticationForm):
 
 
 
-class BucketListForm(HTML5RequiredMixin, forms.ModelForm):
+class BucketListForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and
     password.

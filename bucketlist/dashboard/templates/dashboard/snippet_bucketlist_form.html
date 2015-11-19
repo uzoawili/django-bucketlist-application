@@ -1,6 +1,8 @@
 {% load widget_tweaks %}
 
+<form action="" method="{{ form_method }}">
 {% csrf_token %}
+
 <div class="row">
   <div class="col s12">
     <p class="messages truncate tiny">
@@ -17,15 +19,15 @@
   {% for field in form %}
     <div class="input-field col s12">
       
-      <label for="{{ field.id_for_label }}">
-        {{ field.label }}
-      </label>
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
 
       {% if field|widget_type == 'textarea' %}
         {% render_field field  class+="materialize-textarea" %}
       {% else %}
         {% render_field field %}
       {% endif %}
+
+      <div class="errors">{{ field.errors }}</div>
 
     </div>
   {% endfor %}

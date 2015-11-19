@@ -1,17 +1,20 @@
 
 <li class="bucketlist-thumb grid-item ">
-	<a class="info card-panel hoverable" href="{% url 'dashboard:bucketlists' %}">
-		<h4 class="name">{{ bucketlist.name|title }}</h4>
-		<h6 class="stats">8 months ago - 2 of 6 items completed</h6>
-		<p class="description">{{ bucketlist.description }}</p>
-	</a>
-	<div class="fixed-action-btn horizontal">
-		<a class="btn-floating btn more-btn">
-			<i class="material-icons">&#xE5D3;</i> <!-- more_horiz -->
-		</a>
-		<ul>
-			<li><a class="btn-floating tooltipped" data-position="bottom" data-tooltip="Edit"><i class="material-icons">&#xE254;</i></a></li> <!-- mode_edit -->
-			<li><a class="btn-floating tooltipped" data-position="bottom" data-tooltip="Delete"><i class="material-icons">&#xE872;</i></a></li> <!-- delete -->
-		</ul>
-	</div>
+  
+  <a class="info card-panel hoverable" href="{% url 'dashboard:bucketlists' %}">
+    <h4 class="name">{{ bucketlist.name|title }}</h4>
+    <h6 class="stats">8 months ago - 2 of 6 items completed</h6>
+    <p class="description">{{ bucketlist.description }}</p>
+  </a>
+
+  <div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn more-btn">
+      <i class="material-icons">&#xE5D3;</i> <!-- more_horiz -->
+    </a>
+    <ul>
+      <li><a href="{% url 'dashboard:bucketlist_update' pk=bucketlist.pk %}" class="btn-floating tooltipped" data-position="bottom" data-tooltip="Edit"><i class="material-icons">&#xE254;</i></a></li> <!-- mode_edit -->
+      <li><a href="{% url 'dashboard:bucketlist_delete' pk=bucketlist.pk %}" class="btn-floating tooltipped" data-position="bottom" data-tooltip="Delete"><i class="material-icons">&#xE872;</i></a></li> <!-- delete -->
+    </ul>
+  </div>
+
 </li>

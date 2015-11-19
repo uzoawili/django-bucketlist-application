@@ -7,12 +7,21 @@
 {% block page %}
 	<!-- Add New button -->
 	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
-    <button class="modal-trigger btn-floating btn-large waves-effect waves-light" data-target="new-bucketlist-modal" data-target-action="{% url 'dashboard:bucketlists'%}" data-target-method="POST">
+    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_create'%}">
     	<i class="large material-icons">add</i>
-    </button>
+    </a>
   </div>
 
-  <div class="thumb-list-container">
+  <!-- Toasts -->
+  <div class="toast hide">
+    {% if messages %}
+      {% for message in messages %}
+      {{ message }}&nbsp;
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="content">
     {% if bucketlists|length %}
       <!-- thumbnail list -->
       <ul class="thumb-list packery-grid">
@@ -37,5 +46,5 @@
 {% endblock page %}
 
 {% block modals %}
-	{% include "dashboard/modal_new_bucketlist.html" with form=bucketlist_form %}
+	{# include modals here #}
 {% endblock modals %}
