@@ -1,7 +1,7 @@
 
 <li class="bucketlist-thumb grid-item ">
   
-  <a class="info card-panel hoverable" href="{% url 'dashboard:bucketlists' %}">
+  <a class="info card-panel hoverable" href="{% url 'dashboard:bucketlist_details' pk=bucketlist.pk %}">
     <h4 class="name">{{ bucketlist.name|title }}</h4>
     <h6 class="stats">8 months ago - 2 of 6 items completed</h6>
     <p class="description">{{ bucketlist.description }}</p>

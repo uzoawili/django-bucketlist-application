@@ -12,7 +12,15 @@ $(document).ready(function() {
   // Materialize.showStaggeredList('.thumb-list');
 
 
-    //----------------------------------------
+  //----------------------------------------
+  //  toasts:
+  //----------------------------------------
+
+  toast_text = $('.messages').text();
+  console.log("toasts: " + $('.messages').length);
+  if (toast_text != ""){
+    Materialize.toast(toast_text, 4000);
+  }
 
 
   //----------------------------------------
@@ -108,6 +116,10 @@ $(document).ready(function() {
       opacity: .85,
     }); 
   });
+
+
+
+
 
 
 });

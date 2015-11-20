@@ -10,7 +10,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, DeleteV
 from django.views.generic.edit import UpdateView
 from django.conf import settings
 
-from models import BucketList
+from models import BucketList, BucketListItem
 from forms import SignupForm, SigninForm, BucketListForm, BucketListItemForm
 from utils import SerializedHtmlResponse
 
@@ -231,6 +231,30 @@ class BucketListDeleteView(BucketListEditView, DeleteView):
 
 
 
+class BucketListDetailView(LoginRequiredMixin, DetailView):
+
+    template_name =  'dashboard/bucketlist_details.html'
+    context_object_name = 'bucketlist'
+
+
+    def get_queryset(self):
+        """ 
+        Returns the queryset of bucketlists created by the current user. 
+        """
+        # return user's bucketlists:
+        return BucketList.objects.filter(creator=self.request.user)
+
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the template.
+        """
+        context = super(BucketListDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'sidebar_tab_index': 1,
+            'items': BucketListItem.objects.filter(bucketlist=self.object),
+        })
+        return context
 
 
 

@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block window_title %}Dashboard - Bucket Lists{% endblock window_title %}
-{% block view_title %}My Bucket Lists{% endblock view_title %}</h3>
+{% block view_title %}{{ bucketlist.name|title }}{% endblock view_title %}</h3>
+
+{% block options %}
+  <!-- Cancel button -->
+  <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists'%}">
+    <i class="material-icons">&#xE14C;</i><!-- clear -->
+  </a>
+{% endblock options %}
 
 {% block page %}
 	<!-- Add New button -->
@@ -27,8 +34,8 @@
       <ul class="thumb-list packery-grid">
         <div class="grid-sizer"></div>
         <div class="gutter-sizer"></div>
-        {% for bucketlist in bucketlists %}
-          {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
+        {% for item in items %}
+          {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=item %}
         {% endfor %}
       </ul>
 
@@ -36,8 +43,8 @@
     <!-- empty prompt -->
     <div class="container valign-wrapper empty-prompt">
       <div>
-        <h5 class="valign">You currently have no bucket lists.</h5>
-        <h5> Use the '+' button below to create a new bucket list.</h5>
+        <h5 class="valign">This bucket list currently has no items.</h5>
+        <h5> Use the '+' button below to add a new item.</h5>
       </div>
     </div>
   	{% endif %}
@@ -46,5 +53,5 @@
 {% endblock page %}
 
 {% block modals %}
-  {% include "dashboard/modal_confirm_delete.html" with message="Are you sure you want delete this bucketlist?" %}
+  {% include "dashboard/modal_confirm_delete.html" with message="Are you sure you want delete this item?" %}
 {% endblock modals %}
