@@ -210,6 +210,7 @@ class BucketListUpdateView(BucketListEditView, UpdateView):
         return context
 
 
+
 class BucketListDeleteView(BucketListEditView, DeleteView):
     """
     View for deleteing a BucketList.

@@ -46,5 +46,5 @@
 {% endblock page %}
 
 {% block modals %}
-	{# include modals here #}
+  {% include "dashboard/modal_confirm_delete.html" with message="Are you sure you want delete this bucketlist?" %}
 {% endblock modals %}

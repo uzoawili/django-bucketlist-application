@@ -31,11 +31,6 @@ $(document).ready(function() {
       'isResizeBound': true
 
   });
-  // call packery layout everytime an item's image loads:
-  // $grid.find('.item-image-wrapper img').load(function() {
-  //     $grid.packery();
-  // });
-
 
 
   //----------------------------------------
@@ -96,87 +91,23 @@ $(document).ready(function() {
   //  Modals:
   //----------------------------------------
 
-  // initialize MaterializeCSS lean modals on the triggers
-  $('.modal-trigger').leanModal({
-    dismissible: true,
-    opacity: .95,
-  });
+  //set listeners for modal triggers' click:
+  $('.thumb-list').on('click', 'a.modal-trigger', function(e) {
+    e.preventDefault();
 
-  // set listeners for modal trigger click and submit:
+    $target = $($(this).data('target'));
+    $targetForm = $target.find('form');
+    targetAction = $(this).attr('href');
 
-  $('.modal-trigger').on('click', function(){
-    targetForm = $("#" + $(this).data('target') + " form");
-    targetAction = $(this).data('targetAction');
-    targetMethod = $(this).data('targetMethod');
-    if(targetForm){
-      if(targetAction) targetForm.attr('action', targetAction);
-      if(targetMethod) targetForm.attr('method', targetMethod);
+    if(targetAction && $targetForm){
+      $targetForm.attr('action', targetAction);
     }
+
+    $target.openModal({
+      dismissible: true,
+      opacity: .85,
+    }); 
   });
-
-  $('.modal form').on('submit', function(event){
-    event.preventDefault();
-    submitForm(this);
-  });
-
-  // map the form operations to response handler functions:
-  formResponseHandlers = {
-    'create_bucket_list': createBucketListHandler
-    // 'update_bucket_list':,
-    // 'delete_bucket_list':,
-    // 'create_bucket_list_item':,
-    // 'update_bucket_list_item':,
-    // 'delete_bucket_list_item':
-  };
-
-  function submitForm(form) {
-    $.ajax({
-      url : form.action,
-      type : form.method,
-      data : $(form).serialize(),
-      dataType: 'json',
-      headers: {
-        'X-CSRFToken': $(form).find('input[name="csrfmiddlewaretoken"]').val()
-      },
-      success : function(json_response) {
-        //get the appropriate response handler function:
-        var responseHandler = formResponseHandlers[json_response.operation];
-        // call the responseHandler with the response:
-        if(responseHandler) responseHandler(json_response);
-        else formSubmitErrorHandler(form);
-      },
-      error : function() {
-        // show error message:
-        formSubmitErrorHandler(form);
-      }
-    });
-  };
-
-  function formSubmitErrorHandler(form) {
-    messages = $(form).find('.messages');
-    messages.text('Sorry, something went wrong. Your request could not be completed.');
-  }
-
-  function createBucketListHandler(response){
-    $modal = $('#new-bucketlist-modal')
-    if (response.status == 'success'){
-      // create the thumblist if it doesn't exist:
-      if (!($('.thumb-list-container .thumb-list').length)){
-        $('.thumb-list-container').empty().append('<ul class="thumb-list"></ul>');
-      }
-      // add new item to the thumbs-list:
-      $('.thumb-list').prepend(response.html);
-      // close the modal:
-      $modal.closeModal();
-      //show toast:
-      Materialize.toast('Bucket list added. Noice!', 4000);
-
-    } else if (response.status == 'invalid'){
-      // replace the content of the modal form with the response data:
-      $modal.find('form').html(response.html);
-    }
-  }
-
 
 
 });

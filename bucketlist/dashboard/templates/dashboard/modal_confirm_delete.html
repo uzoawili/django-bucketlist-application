@@ -1,0 +1,21 @@
+<!-- Delete confirmation modal-->
+<div id="modal-confirm-delete" class="modal">
+
+  <div class="row">
+    <div class="col s12">
+      <h3>Confirm Delete</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <p>{{ message }}</p>
+    </div>
+  </div>
+
+  <form action="" method="POST">
+    {% csrf_token %}
+    <button class="btn btn-large waves-effect waves-green" type="submit" name="save">Delete</button>
+  </form>
+
+</div>
