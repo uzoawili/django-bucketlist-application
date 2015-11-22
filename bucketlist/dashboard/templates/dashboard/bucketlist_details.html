@@ -14,7 +14,7 @@
 {% block page %}
 	<!-- Add New button -->
 	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
-    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_create'%}">
+    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_item_create' pk=bucketlist.pk %}">
     	<i class="large material-icons">add</i>
     </a>
   </div>
@@ -29,13 +29,11 @@
   {% endif %}
 
   <div class="content">
-    {% if bucketlists|length %}
+    {% if items|length %}
       <!-- thumbnail list -->
-      <ul class="thumb-list packery-grid">
-        <div class="grid-sizer"></div>
-        <div class="gutter-sizer"></div>
+      <ul class="thumb-list">
         {% for item in items %}
-          {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=item %}
+          {% include "dashboard/snippet_bucketlist_item_thumb.html" with item=item bucketlist=bucketlist %}
         {% endfor %}
       </ul>
 

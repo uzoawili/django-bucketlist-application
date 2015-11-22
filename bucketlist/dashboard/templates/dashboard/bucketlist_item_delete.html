@@ -6,7 +6,7 @@
 
 {% block options %}
   <!-- Cancel button -->
-  <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists'%}">
+  <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlist_details' pk=object.bucketlist.pk %}">
     <i class="material-icons">&#xE14C;</i><!-- clear -->
   </a>
 {% endblock options %}
@@ -21,7 +21,7 @@
         <!-- message -->
         <div class="row">
           <div class="col s12">
-            <p>Are you certain you want to delete this bucketlist?</p>
+            <p>Are you certain you want to delete this item?</p>
             <p>{{ object.name }}</p>
           </div>
         </div>
@@ -32,7 +32,7 @@
 
             <form action="" method="POST">
               {% csrf_token %}
-              <button class="btn btn-large waves-effect waves-green" type="submit" name="save">Delete</button>
+              <button class="btn btn-large waves-effect waves-green" type="submit" name="save">Delete Item</button>
             </form>
             
           </div>

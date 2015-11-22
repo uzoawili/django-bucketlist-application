@@ -43,8 +43,6 @@ i.inline-icon {
 }
 
 .fixed-action-btn.horizontal ul {
-  list-style: none outside none;
-  padding: 0px 0px;
   text-align: right;
   right: 120%;
   top: 50%;
@@ -54,10 +52,7 @@ i.inline-icon {
   height: 100%;
   left: initial;
   width: auto;
-}
-
-.fixed-action-btn.horizontal ul li {
-  display: inline-block;
+  overflow: visible;
 }
 
 .fixed-action-btn.horizontal ul li {
@@ -301,8 +296,7 @@ i.inline-icon {
 }
 
 .dashboard .bucketlist-thumb .fixed-action-btn.horizontal ul {
-  width: 100px;
-  overflow: visible;
+  width: 150px;
 }
 
 .dashboard .packery-grid {

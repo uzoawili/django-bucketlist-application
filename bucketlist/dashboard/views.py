@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import View, ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import UpdateView
+from django.http import Http404
 from django.conf import settings
 
 from models import BucketList, BucketListItem
@@ -123,19 +124,22 @@ class BucketListsView(LoginRequiredMixin, ListView):
         # get user's bucketlists:
         results = BucketList.objects.filter(creator=self.request.user)
         # search if param is specified:
-        q = get_params.get('q')
-        if q:
-            results = BucketList.objects.filter(name__icontains=q)
+        self.search_query = get_params.get('q')
+        if self.search_query:
+            results = results.filter(name__icontains=self.search_query)
 
         return results
 
 
     def get_context_data(self, **kwargs):
         """
-        Returns the context that will used to render the template.
+        Returns the context that will be used to render the template.
         """
         context = super(BucketListsView, self).get_context_data(**kwargs)
-        context['sidebar_tab_index'] = 1
+        context.update({
+            'sidebar_tab_index': 1,
+            'search_query': self.search_query or None,
+        })
         return context
 
 
@@ -158,6 +162,9 @@ class BucketListEditView(LoginRequiredMixin):
 
 
     def get_queryset(self):
+        """
+        Determines the queryset to be used to get the current object
+        """
         return BucketList.objects.filter(creator=self.request.user)
 
 
@@ -253,6 +260,138 @@ class BucketListDetailView(LoginRequiredMixin, DetailView):
         context.update({
             'sidebar_tab_index': 1,
             'items': BucketListItem.objects.filter(bucketlist=self.object),
+        })
+        return context
+
+
+
+class BucketListItemEditView(LoginRequiredMixin):
+    """
+    Base class for BucketListItem create and update views.
+    """
+    form_class = BucketListItemForm
+    template_name = 'dashboard/bucketlist_item_edit.html'
+    pk_url_kwarg = 'item_pk'
+    success_toast = ''
+
+    def get_success_url(self):
+        """
+        Determines the url to redirect to after processing a valid form
+        """
+        if self.success_toast:
+            messages.info(self.request, self.success_toast)
+        return reverse('dashboard:bucketlist_details', kwargs={'pk':self.object.bucketlist.pk}) 
+
+
+    def get_queryset(self):
+        """
+        Determines the queryset to be used to get the list
+        """
+        bucketlist = self.get_current_bucketlist()
+        return BucketListItem.objects.filter(bucketlist=bucketlist)
+
+    def get_current_bucketlist(self):
+        return BucketList.objects.filter(
+            creator=self.request.user, 
+            pk=self.kwargs.get('pk')
+        ).get()
+
+
+
+class BucketListItemCreateView(BucketListItemEditView, CreateView):
+    """
+    View for creating a BucketListItem.
+    """
+    success_toast = 'Item added to bucket list!'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the view.
+        """
+        context = super(BucketListItemCreateView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Add New Item',
+            'bucketlist': self.get_current_bucketlist(),
+            'sidebar_tab_index': 1, 
+        })
+        return context
+
+
+    def form_valid(self, form):
+        """
+        Saves the object referenced by the form, sets the current object for the view, 
+        and redirects to get_success_url()
+        """
+        item = form.save(commit=False)
+        bucketlist = BucketList.objects.filter(
+            creator=self.request.user, 
+            pk=self.kwargs.get('pk')
+        )
+        item.bucketlist = self.get_current_bucketlist()
+        item.save()
+        self.object = item
+        return redirect(self.get_success_url())
+
+
+
+class BucketListItemUpdateView(BucketListItemEditView, UpdateView):
+    """
+    View for updating a BucketListItem.
+    """
+    success_toast = 'Item updated, cool!'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will be used to render the view.
+        """
+        context = super(BucketListItemUpdateView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Update Item',
+            'bucketlist': self.get_current_bucketlist(), 
+            'sidebar_tab_index': 1, 
+        })
+        return context
+
+
+
+class BucketListItemDoneView(BucketListItemEditView, View):
+    """
+    View for updating the 'done' property of a BucketListItem.
+    """
+    success_toast = 'Item marked as done, keep it up!'
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to this view.
+        """
+
+        if 'done' in request.POST:
+            item = self.get_queryset().filter(pk=kwargs.get('item_pk')).get()
+            item.done = True
+            item.save()
+            self.object = item
+            return redirect(self.get_success_url())
+        else:
+            raise Http404()
+
+
+
+class BucketListItemDeleteView(BucketListItemEditView, DeleteView):
+    """
+    View for deleteing a BucketListItem.
+    """
+    success_toast = 'Item discarded!'
+    template_name = 'dashboard/bucketlist_item_delete.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Returns the context that will used to render the view.
+        """
+        context = super(BucketListItemDeleteView, self).get_context_data(**kwargs)
+        context.update({ 
+            'title': 'Delete Bucket List',
+            'bucketlist': self.get_current_bucketlist(),
+            'sidebar_tab_index': 1, 
         })
         return context
 

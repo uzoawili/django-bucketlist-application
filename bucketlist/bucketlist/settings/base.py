@@ -123,7 +123,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Dashboard app settings
 
-DASHBOARD_PAGE_LIMIT = 20
+DASHBOARD_PAGE_LIMIT = 10
 
 DASHBOARD_PAGE_ORPHANS = 2
 
