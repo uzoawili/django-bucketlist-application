@@ -3,7 +3,7 @@
   
   <a class="info card-panel hoverable" href="{% url 'dashboard:bucketlist_details' pk=bucketlist.pk %}">
     <h4 class="name">{{ bucketlist.name|title }}</h4>
-    <h6 class="stats">{{ bucketlist.items.all|length }}</h6>
+    <h6 class="stats">{{ bucketlist.num_done_items }}/{{ bucketlist.num_items }}</h6>
     <p class="description">{{ bucketlist.description }}</p>
   </a>
 

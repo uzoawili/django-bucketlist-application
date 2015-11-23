@@ -122,7 +122,7 @@ class BucketListsView(LoginRequiredMixin, ListView):
         # get any search param from the request:
         get_params = self.request.GET.dict()
         # get user's bucketlists:
-        results = BucketList.objects.filter(creator=self.request.user)
+        results = BucketList.objects.filter(created_by=self.request.user)
         # search if param is specified:
         self.search_query = get_params.get('q')
         if self.search_query:
@@ -165,7 +165,7 @@ class BucketListEditView(LoginRequiredMixin):
         """
         Determines the queryset to be used to get the current object
         """
-        return BucketList.objects.filter(creator=self.request.user)
+        return BucketList.objects.filter(created_by=self.request.user)
 
 
 
@@ -192,7 +192,7 @@ class BucketListCreateView(BucketListEditView, CreateView):
         and redirects to get_success_url()
         """
         bucketlist = form.save(commit=False)
-        bucketlist.creator = self.request.user
+        bucketlist.created_by = self.request.user
         bucketlist.save()
         self.object = bucketlist
         return redirect(self.get_success_url())
@@ -249,7 +249,7 @@ class BucketListDetailView(LoginRequiredMixin, DetailView):
         Returns the queryset of bucketlists created by the current user. 
         """
         # return user's bucketlists:
-        return BucketList.objects.filter(creator=self.request.user)
+        return BucketList.objects.filter(created_by=self.request.user)
 
 
     def get_context_data(self, **kwargs):
@@ -292,7 +292,7 @@ class BucketListItemEditView(LoginRequiredMixin):
 
     def get_current_bucketlist(self):
         return BucketList.objects.filter(
-            creator=self.request.user, 
+            created_by=self.request.user, 
             pk=self.kwargs.get('pk')
         ).get()
 
@@ -324,7 +324,7 @@ class BucketListItemCreateView(BucketListItemEditView, CreateView):
         """
         item = form.save(commit=False)
         bucketlist = BucketList.objects.filter(
-            creator=self.request.user, 
+            created_by=self.request.user, 
             pk=self.kwargs.get('pk')
         )
         item.bucketlist = self.get_current_bucketlist()

@@ -19,12 +19,12 @@ class BucketListAdmin(admin.ModelAdmin):
     """
     fieldsets = [
         (None, {
-            "fields": ('name', 'description','creator'),   
+            "fields": ('name', 'description','created_by'),   
         }),
     ]
-    readonly_fields = ('creator',)
+    readonly_fields = ('created_by',)
     search_fields = ('name',)
-    list_display = ('name', 'description','creator', 'date_created', 'date_modified',)
+    list_display = ('name', 'description','created_by', 'date_created', 'date_modified',)
     inlines = [BucketListItemAdminInLine,]
 
 

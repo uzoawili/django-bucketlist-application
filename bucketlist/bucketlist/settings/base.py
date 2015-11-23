@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django_nose',
     'widget_tweaks',
+    'rest_framework',
     'dashboard',
     'api',
 )
@@ -126,5 +127,18 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 DASHBOARD_PAGE_LIMIT = 10
 
 DASHBOARD_PAGE_ORPHANS = 2
+
+
+
+# Django REST Framework:
+
+REST_FRAMEWORK = {
+    
+}
+
+
+
+
+
 
 

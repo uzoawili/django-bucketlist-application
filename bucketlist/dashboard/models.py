@@ -14,8 +14,8 @@ class BaseModel(models.Model):
 
     name = models.CharField(max_length=250, blank=False, null=False)
     description = models.TextField(blank=True, default='')
-    date_created = models.DateField(auto_now_add=True)
-    date_modified = models.DateField(auto_now=True)
+    date_created = models.DateField(editable=False, auto_now_add=True)
+    date_modified = models.DateField(editable=False, auto_now=True)
 
     def __unicode__(self):
         return u'{}'.format(self.name)
@@ -23,14 +23,29 @@ class BaseModel(models.Model):
 
 
 class BucketList(BaseModel):
-    """ model class defining a bucket list """
+    """ Model class defining a bucket list """
 
-    creator = models.ForeignKey(User, related_name='bucketlists', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='bucketlists', on_delete=models.CASCADE)
+
+    @property
+    def num_items(self):
+        """
+        Gets and returns the number of items in this bucketlist.
+        """
+        return self.items.count()
+
+    @property
+    def num_done_items(self):
+        """
+        Gets and returns the number of items in this bucketlist that
+        are marked as done.
+        """
+        return self.items.filter(done=True).count()
 
 
 
 class BucketListItem(BaseModel):
-    """ model class defining a bucket list item"""
+    """ Model class defining a bucket list item"""
     
     bucketlist = models.ForeignKey('BucketList', related_name='items', on_delete=models.CASCADE)
     done =  models.BooleanField(blank=False, default=False)
