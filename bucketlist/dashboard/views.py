@@ -108,7 +108,9 @@ class IndexView(View):
 
 
 class BucketListsView(LoginRequiredMixin, ListView):
-
+    """
+    Returns a list of bucketlists created by this logged in user.
+    """
     template_name =  'dashboard/bucketlists.html'
     ordering = ['-date_created',]
     context_object_name = 'bucketlists'
@@ -290,11 +292,16 @@ class BucketListItemEditView(LoginRequiredMixin):
         bucketlist = self.get_current_bucketlist()
         return BucketListItem.objects.filter(bucketlist=bucketlist)
 
+    
     def get_current_bucketlist(self):
-        return BucketList.objects.filter(
+        """
+        Returns the bucketlist refrenced in the url:
+        """
+        return get_object_or_404(
+            BucketList,
             created_by=self.request.user, 
             pk=self.kwargs.get('pk')
-        ).get()
+        )
 
 
 

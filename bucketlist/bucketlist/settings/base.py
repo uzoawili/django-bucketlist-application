@@ -133,7 +133,10 @@ DASHBOARD_PAGE_ORPHANS = 2
 # Django REST Framework:
 
 REST_FRAMEWORK = {
-    
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'api.utils.APIResultsSetPagination',
 }
 
 
