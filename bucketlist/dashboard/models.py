@@ -49,3 +49,10 @@ class BucketListItem(BaseModel):
     
     bucketlist = models.ForeignKey('BucketList', related_name='items', on_delete=models.CASCADE)
     done =  models.BooleanField(blank=False, default=False)
+
+
+
+
+
+
+

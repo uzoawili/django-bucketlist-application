@@ -27,7 +27,7 @@ urlpatterns += [
 
 	url(r'^bucketlists/(?P<pk>[0-9]+)/items/$',
         BucketListItemCreateView.as_view(),
-        name='bucketlist_items'),
+        name='bucketlist_item_create'),
 
 	url(r'^bucketlists/(?P<pk>[0-9]+)/items/(?P<item_pk>[0-9]+)/$',
         BucketlistItemDetailView.as_view(),

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import generics, viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 
 from dashboard.models import BucketList, BucketListItem
@@ -56,7 +55,7 @@ class BucketListDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class BucketListItemEditMixin(object):
     """
-    Mixin defining common methods and vars for retrieving
+    Mixin defining common methods and vars needed for
     creating, updating and deleting BucketListItems.
     """
     serializer_class = BucketListItemSerializer
@@ -84,7 +83,9 @@ class BucketListItemCreateView(generics.CreateAPIView, BucketListItemEditMixin):
 
     
 
-class BucketlistItemDetailView(generics.RetrieveUpdateDestroyAPIView, BucketListItemEditMixin):
+class BucketlistItemDetailView(mixins.UpdateModelMixin, 
+    mixins.DestroyModelMixin, generics.GenericAPIView,
+    BucketListItemEditMixin):
     """
     Reads, Updates, or Deletes a BucketList item.
     """
