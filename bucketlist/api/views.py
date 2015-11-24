@@ -87,7 +87,7 @@ class BucketlistItemDetailView(mixins.UpdateModelMixin,
     mixins.DestroyModelMixin, generics.GenericAPIView,
     BucketListItemEditMixin):
     """
-    Reads, Updates, or Deletes a BucketList item.
+    Updates, or Deletes a BucketList item.
     """
     def get_object(self):
         bucketlist = get_current_bucketlist()
@@ -96,12 +96,6 @@ class BucketlistItemDetailView(mixins.UpdateModelMixin,
             bucketlist=bucketlist,
             pk=self.kwargs.get('pk_item')
         )
-
-
-
-
-
-
 
 
 

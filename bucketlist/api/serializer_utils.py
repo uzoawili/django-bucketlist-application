@@ -6,8 +6,7 @@ from rest_framework.serializers import HyperlinkedIdentityField
 
 class ParameterisedHyperlinkedIdentityField(HyperlinkedIdentityField):
     """
-    Represents the instance, or a property on the instance, using a
-    HyperlinkedIdentityField that accepts none or multiple look up fields.
+    Subclasses a HyperlinkedIdentityField to add accepts none or multiple lookup_fields.
 
     lookup_fields is a tuple of tuples of the form:
         ('model_field', 'url_parameter')
@@ -19,7 +18,6 @@ class ParameterisedHyperlinkedIdentityField(HyperlinkedIdentityField):
     lookup_fields = (('pk', 'pk'),)
 
     def __init__(self, *args, **kwargs):
- 
         self.lookup_fields = kwargs.pop('lookup_fields', self.lookup_fields)
         super(ParameterisedHyperlinkedIdentityField, self).__init__(*args, **kwargs)
 
