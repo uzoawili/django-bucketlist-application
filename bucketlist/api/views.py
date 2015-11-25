@@ -1,19 +1,50 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, viewsets, mixins
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics, viewsets, mixins, status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_jwt.settings import api_settings
 
 from dashboard.models import BucketList, BucketListItem
 from serializers import BucketListSerializer, BucketListDetailSerializer, \
                         BucketListItemSerializer, UserSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserRegistrationView(generics.CreateAPIView):
     """
-    Viewset for User model.
+    View for registering users.
+    Registration params: 'username' and 'password'
     """
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+
+
+    def create(self, request, *args, **kwargs):
+        """
+        Creates a new user and generates an authentication token
+        to automatically log them in.
+        """
+        # process the registration params:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        # automatically get token for the created user/log them in:
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(self.user)
+        token = jwt_encode_handler(payload)
+        # get the response headers:
+        headers = self.get_success_headers(serializer.data)
+        # prepare the response body:
+        body = {
+            'token':token,
+            'user': serializer.data,
+        }
+        return Response(body, status=status.HTTP_201_CREATED, headers=headers)
+
+
+    def perform_create(self, serializer):
+        self.user = serializer.save()
 
 
 
@@ -69,28 +100,32 @@ class BucketListItemEditMixin(object):
         )
 
     def get_queryset(self):
-        bucketlist = get_current_bucketlist()
+        bucketlist = self.get_current_bucketlist()
         return BucketListItem.objects.filter(bucketlist=bucketlist)
 
 
 
-class BucketListItemCreateView(generics.CreateAPIView, BucketListItemEditMixin):
+class BucketListItemCreateView(
+    BucketListItemEditMixin,
+    generics.CreateAPIView
+    ):
     """
     Creates a BucketList item.
     """
     def perform_create(self, serializer):
-        serializer.save(bucketlist=get_current_bucketlist())
+        serializer.save(bucketlist=self.get_current_bucketlist())
 
     
 
-class BucketlistItemDetailView(mixins.UpdateModelMixin, 
-    mixins.DestroyModelMixin, generics.GenericAPIView,
-    BucketListItemEditMixin):
+class BucketlistItemDetailView(
+    BucketListItemEditMixin,
+    generics.RetrieveUpdateDestroyAPIView
+    ):
     """
     Updates, or Deletes a BucketList item.
     """
     def get_object(self):
-        bucketlist = get_current_bucketlist()
+        bucketlist = self.get_current_bucketlist()
         return get_object_or_404(
             BucketlistItem,
             bucketlist=bucketlist,

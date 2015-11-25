@@ -39,8 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_nose',
-    'widget_tweaks',
     'rest_framework',
+    'rest_framework_swagger',
+    'widget_tweaks',
     'dashboard',
     'api',
 )
@@ -137,6 +138,7 @@ DASHBOARD_PAGE_ORPHANS = 2
 # Django REST Framework:
 
 REST_FRAMEWORK = {
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -146,22 +148,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': 'api.utils.APIResultsSetPagination',
+
 }
 
 # Django REST JWT:
 
 JWT_AUTH = {
-    'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
-
-    'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
-
-    'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
-
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     'api.authentication.jwt_response_payload_handler',
@@ -172,8 +164,22 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=3),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+
 }
 
+
+SWAGGER_SETTINGS = {
+
+    'info': {
+        'contact': 'uzo.awili@andela.com',
+        'description': 'This is a simple bucket list mangement service. '
+                       'You can find out more about TheBucketListApp on '
+                       '<a href="https://github.com/andela-uawili/bucketlist-application">'
+                       'GitHub</a>.',
+        'title': 'TheBucketListApp API',
+    },
+
+}
 
 
 

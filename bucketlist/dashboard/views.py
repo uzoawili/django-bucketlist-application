@@ -26,6 +26,9 @@ class LoginRequiredMixin(object):
 
 
 class IndexView(View):
+    """
+    Represents the landing/Home/authentication view.
+    """
 
     validation_msgs = {
         'invalid_params': 'Invalid username or password!',
@@ -33,6 +36,9 @@ class IndexView(View):
     }
 
     def get(self, request, *args, **kwargs):
+        """
+        Renders the index/home view
+        """
         
         # redirect to dashboard/bucketlists if user is already signed in:
         if request.user.is_authenticated():
@@ -43,6 +49,9 @@ class IndexView(View):
 
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles the signin and signup form submissions
+        """
         if 'signup' in request.POST:
             auth_form_name = 'signup_form'
             auth_form = SignupForm(request.POST, auto_id=True)

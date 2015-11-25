@@ -12,13 +12,20 @@ class UserSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ('id', 'username', 'bucketlists_url')
+        fields = ('id', 'username', 'password', 'bucketlists_url',)
+        extra_kwargs = {'password': {'write_only': True}}
 
     bucketlists_url = ParameterisedHyperlinkedIdentityField(
       view_name='api:bucketlists',
       lookup_fields=()
     )
-    
+
+    def create(self, validated_data):
+        user = User(username=validated_data['username'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+        
 
 
 class BucketListItemSerializer(serializers.ModelSerializer):

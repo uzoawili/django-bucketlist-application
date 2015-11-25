@@ -4,7 +4,9 @@ from django.contrib.auth import views as auth_views
 
 from dashboard.views import IndexView
 
+
 urlpatterns = [
+
 	# admin
 	url(r'^admin/', include(admin.site.urls)),
 
@@ -15,10 +17,8 @@ urlpatterns = [
 
     # bucketlist api:
     url(r'^api/', include('api.urls', namespace='api')),
+
 ]
 
-# browsable API: Login and logout views
-urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-]
+
+    
