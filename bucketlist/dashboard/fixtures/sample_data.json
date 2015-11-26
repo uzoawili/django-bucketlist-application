@@ -1,0 +1,184 @@
+[
+  {
+    "fields": {
+      "username": "joy",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2015-11-22T10:42:35.121Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$LCcJRl4rg1lW$Wx46gWlUl0uaaN5T//jvkQoJa/f4ODqurTQ9Xn+dCF8=",
+      "email": "",
+      "date_joined": "2015-11-14T09:14:10.178Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "username": "uzo",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2015-11-23T05:27:13.555Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$JEKJSRzPOBBe$s/FpAa9beJs74RmyJdOolVXxCAOneXVlrMhuriOllqY=",
+      "email": "",
+      "date_joined": "2015-11-19T03:41:19.928Z"
+    },
+    "model": "auth.user",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "username": "andela",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2015-11-23T04:13:40.847Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$uFp58CKIwlmH$FzKlUQmFfV211BuqlCNfVY0/iwDSFrJgv+mxT+YR3EU=",
+      "email": "awillionaire@gmail.com",
+      "date_joined": "2015-11-23T00:01:46.659Z"
+    },
+    "model": "auth.user",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "username": "young",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$I32JhdL4QEzn$YPkmJSH6oEIvbbPcnaHk4apktagWHkX5gPzJ4Nc5hF0=",
+      "email": "",
+      "date_joined": "2015-11-25T04:55:30.194Z"
+    },
+    "model": "auth.user",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-21",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "name": "People to Kill",
+      "created_by": 3,
+      "date_modified": "2015-11-22"
+    },
+    "model": "dashboard.bucketlist",
+    "pk": 71
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-22",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
+      "name": "My Crazzzyyy List",
+      "created_by": 3,
+      "date_modified": "2015-11-23"
+    },
+    "model": "dashboard.bucketlist",
+    "pk": 72
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-22",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+      "name": "Adventures with Bae",
+      "created_by": 3,
+      "date_modified": "2015-11-22"
+    },
+    "model": "dashboard.bucketlist",
+    "pk": 73
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-22",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "name": "Before Getting Married",
+      "created_by": 3,
+      "date_modified": "2015-11-23"
+    },
+    "model": "dashboard.bucketlist",
+    "pk": 74
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-21",
+      "bucketlist": 71,
+      "name": "Hoilday in Venice",
+      "done": true,
+      "date_modified": "2015-11-22"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-21",
+      "bucketlist": 71,
+      "name": "Travel to Mars",
+      "done": true,
+      "date_modified": "2015-11-26"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-23",
+      "bucketlist": 72,
+      "name": "Camp on the rim of a vulcanoe",
+      "done": true,
+      "date_modified": "2015-11-23"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-23",
+      "bucketlist": 74,
+      "name": "Skydiving in Dubai",
+      "done": true,
+      "date_modified": "2015-11-23"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-23",
+      "bucketlist": 74,
+      "name": "Bungee off the Brooklyn Bridge",
+      "done": false,
+      "date_modified": "2015-11-23"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "date_created": "2015-11-25",
+      "bucketlist": 71,
+      "name": "Wake up on Mount Versuvius!",
+      "done": true,
+      "date_modified": "2015-11-25"
+    },
+    "model": "dashboard.bucketlistitem",
+    "pk": 19
+  }
+]

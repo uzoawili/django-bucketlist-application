@@ -1,23 +1,22 @@
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, viewsets, mixins, status
+from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
 
 from dashboard.models import BucketList, BucketListItem
 from serializers import BucketListSerializer, BucketListDetailSerializer, \
-                        BucketListItemSerializer, UserSerializer
+    BucketListItemSerializer, UserSerializer
 
 
 class UserRegistrationView(generics.CreateAPIView):
+
     """
     View for registering users.
     Registration params: 'username' and 'password'
     """
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
-
 
     def create(self, request, *args, **kwargs):
         """
@@ -37,18 +36,17 @@ class UserRegistrationView(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         # prepare the response body:
         body = {
-            'token':token,
+            'token': token,
             'user': serializer.data,
         }
         return Response(body, status=status.HTTP_201_CREATED, headers=headers)
-
 
     def perform_create(self, serializer):
         self.user = serializer.save()
 
 
-
 class BucketListsView(generics.ListCreateAPIView):
+
     """
     Returns a list of bucketlists created by the authenticated in user
     or creates a new bucklist.
@@ -56,8 +54,8 @@ class BucketListsView(generics.ListCreateAPIView):
     serializer_class = BucketListSerializer
 
     def get_queryset(self):
-        """ 
-        Returns the queryset of bucketlists created by the current user. 
+        """
+        Returns the queryset of bucketlists created by the current user.
         """
         # get any search param from the request:
         query_params = self.request.query_params
@@ -70,9 +68,12 @@ class BucketListsView(generics.ListCreateAPIView):
 
         return results
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
 
 
 class BucketListDetailView(generics.RetrieveUpdateDestroyAPIView):
+
     """
     Retrieves, updates or deletes a bucketlist.
     """
@@ -83,8 +84,8 @@ class BucketListDetailView(generics.RetrieveUpdateDestroyAPIView):
         return BucketList.objects.filter(created_by=self.request.user)
 
 
-
 class BucketListItemEditMixin(object):
+
     """
     Mixin defining common methods and vars needed for
     creating, updating and deleting BucketListItems.
@@ -95,7 +96,7 @@ class BucketListItemEditMixin(object):
         """ Returns the bucketlist refrenced in the url """
         return get_object_or_404(
             BucketList,
-            created_by=self.request.user, 
+            created_by=self.request.user,
             pk=self.kwargs.get('pk')
         )
 
@@ -104,43 +105,28 @@ class BucketListItemEditMixin(object):
         return BucketListItem.objects.filter(bucketlist=bucketlist)
 
 
-
 class BucketListItemCreateView(
     BucketListItemEditMixin,
     generics.CreateAPIView
-    ):
+):
     """
     Creates a BucketList item.
     """
+
     def perform_create(self, serializer):
         serializer.save(bucketlist=self.get_current_bucketlist())
 
-    
 
 class BucketlistItemDetailView(
     BucketListItemEditMixin,
     generics.RetrieveUpdateDestroyAPIView
-    ):
+):
+
     """
     Updates, or Deletes a BucketList item.
     """
+
     def get_object(self):
-        bucketlist = self.get_current_bucketlist()
-        return get_object_or_404(
-            BucketlistItem,
-            bucketlist=bucketlist,
-            pk=self.kwargs.get('pk_item')
-        )
-
-
-
-
-
-
-
-
-
-
-
-
-
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset, pk=self.kwargs['item_pk'])
+        return obj

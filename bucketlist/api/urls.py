@@ -1,29 +1,30 @@
 from django.conf.urls import url, include
 
-from views import UserRegistrationView, BucketListsView, BucketListDetailView, \
-                  BucketListItemCreateView, BucketlistItemDetailView
+from views import UserRegistrationView, BucketListsView, \
+    BucketListDetailView, BucketListItemCreateView, \
+    BucketlistItemDetailView
 
 
-urlpatterns = [ 
+urlpatterns = [
 
     # user and auth routes
 
-    url(r'^auth/register$', 
+    url(r'^auth/register$',
         UserRegistrationView.as_view(),
         name='auth_register'),
 
-    url(r'^auth/login$', 
-        'rest_framework_jwt.views.obtain_jwt_token', 
+    url(r'^auth/login$',
+        'rest_framework_jwt.views.obtain_jwt_token',
         name='auth_login'),
 
-    url(r'^auth/refresh$', 
-        'rest_framework_jwt.views.refresh_jwt_token', 
+    url(r'^auth/refresh$',
+        'rest_framework_jwt.views.refresh_jwt_token',
         name='auth_refresh'),
 
 
     # bucket list routes:
 
-    url(r'^bucketlists/$',  
+    url(r'^bucketlists/$',
         BucketListsView.as_view(),
         name='bucketlists'),
 
@@ -48,6 +49,3 @@ urlpatterns = [
 
 
 ]
-
-
-

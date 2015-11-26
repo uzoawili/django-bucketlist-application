@@ -51,5 +51,5 @@ class BucketListItemForm(HTML5RequiredMixin, forms.ModelForm):
     """
     class Meta:
         model = BucketListItem
-        fields = ('name', 'description', 'done')
+        fields = ('name', 'done')
 

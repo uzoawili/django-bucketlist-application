@@ -20,7 +20,8 @@ from datetime import timedelta
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,7 +80,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bucketlist.wsgi.application'
 
 
-
 # Authentication backends:
 
 AUTHENTICATION_BACKENDS = (
@@ -91,7 +91,6 @@ LOGIN_URL = 'home'
 LOGOUT_URL = 'home'
 
 LOGIN_REDIRECT_URL = 'dashboard:bucketlists'
-
 
 
 # Internationalization
@@ -134,7 +133,6 @@ DASHBOARD_PAGE_LIMIT = 10
 DASHBOARD_PAGE_ORPHANS = 2
 
 
-
 # Django REST Framework:
 
 REST_FRAMEWORK = {
@@ -148,6 +146,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': 'api.utils.APIResultsSetPagination',
+
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 
 }
 
@@ -180,8 +180,3 @@ SWAGGER_SETTINGS = {
     },
 
 }
-
-
-
-
-

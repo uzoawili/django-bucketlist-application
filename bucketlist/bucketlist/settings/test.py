@@ -1,9 +1,11 @@
 """
-Test specific settings for bucketlist project.
+Test specific settings.
 """
 
+import logging
 from .base import *
 
+logging.disable(logging.CRITICAL)
 
 DATABASES = {
     'default': {
