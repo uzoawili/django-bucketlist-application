@@ -194,7 +194,7 @@ class BucketListCreateView(BucketListEditView, CreateView):
 
     def form_valid(self, form):
         """
-        Saves the object referenced by the form, 
+        Saves the object referenced by the form,
         sets the current object for the view,
         and redirects to get_success_url()
         """
@@ -238,7 +238,7 @@ class BucketListDeleteView(BucketListEditView, DeleteView):
         """
         context = super(BucketListDeleteView, self).get_context_data(**kwargs)
         context.update({
-            'title': 'Update Bucket List',
+            'title': 'Delete Bucket List',
             'sidebar_tab_index': 1,
         })
         return context
@@ -250,9 +250,9 @@ class BucketListDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'bucketlist'
 
     def get_queryset(self):
-        """ 
-        Returns the queryset of bucketlists 
-        created by the current user. 
+        """
+        Returns the queryset of bucketlists
+        created by the current user.
         """
         # return user's bucketlists:
         return BucketList.objects.filter(created_by=self.request.user)
@@ -389,7 +389,6 @@ class BucketListItemDoneView(BucketListItemEditView, View):
 
 
 class BucketListItemDeleteView(BucketListItemEditView, DeleteView):
-
     """
     View for deleteing a BucketListItem.
     """
@@ -403,7 +402,7 @@ class BucketListItemDeleteView(BucketListItemEditView, DeleteView):
         context = super(
             BucketListItemDeleteView, self).get_context_data(**kwargs)
         context.update({
-            'title': 'Delete Bucket List',
+            'title': 'Delete Item',
             'bucketlist': self.get_current_bucketlist(),
             'sidebar_tab_index': 1,
         })
