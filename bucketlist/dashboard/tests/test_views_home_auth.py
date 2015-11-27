@@ -2,9 +2,9 @@ from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 
 
-class HomeViewTestCase(TestCase):
+class HomeTestCase(TestCase):
     """
-    Testcase for the Home/Authentication View .
+    Testcase for the Home View .
     """
     fixtures = ['sample_data.json']
 
@@ -23,6 +23,47 @@ class HomeViewTestCase(TestCase):
             reverse('home')
         )
         self.assertEquals(response.status_code, 200)
+
+    def test_home_redirects_to_dashboard_if_user_is_authenticated(self):
+        """
+        Tests that Home redirects to dashboard
+        if user is already authenticated.
+        """
+        #  first log an existing user in:
+        self.client.login(username='uzo', password='tia')
+        response = self.client.get(reverse('home'))
+        # assert for a redirection:
+        self.assertEquals(response.status_code, 302)
+
+
+class AuthenticationTestCase(TestCase):
+    """
+    Testcase for the Home/Authentication View .
+    """
+    fixtures = ['sample_data.json']
+
+    def setUp(self):
+        """ 
+        operations to be done before every test
+        """
+        # create a test client:
+        self.client = Client()
+
+    def test_default_homepage_renders_in_post_without_auth_type(self):
+        """
+        Tests that the page renders with default
+        when an auth form (signin or signup) is
+        submitted without specifying the type:
+        """
+        response = self.client.post(
+            reverse('home'),
+            {
+                'username': 'uzo',
+                'password1': 'tia',
+                'password2': 'tia'
+            }
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_user_signup_with_valid_params(self):
         """

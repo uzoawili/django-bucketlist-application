@@ -1,5 +1,3 @@
-from django.core.urlresolvers import NoReverseMatch
-
 from rest_framework.reverse import reverse
 from rest_framework.serializers import HyperlinkedIdentityField
 
@@ -37,10 +35,5 @@ class ParameterisedHyperlinkedIdentityField(HyperlinkedIdentityField):
                 attr = getattr(attr, field)
             kwargs[url_param] = attr
 
-        try:
-            return reverse(view_name, kwargs=kwargs,
-                           request=request, format=format)
-        except NoReverseMatch:
-            pass
-
-        raise NoReverseMatch()
+        return reverse(view_name, kwargs=kwargs,
+                       request=request, format=format)

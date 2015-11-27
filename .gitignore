@@ -72,6 +72,9 @@ prepros.cfg
 */.DS_Store
 .DS_Store
 
+# staticfiles
+bucketlist/staticfiles/
+
 # database migrations
 bucketlist/*/migrations/*
 

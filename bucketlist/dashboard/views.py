@@ -38,7 +38,6 @@ class IndexView(View):
         """
         Renders the index/home view
         """
-
         # redirect to dashboard/bucketlists if user is already signed in:
         if request.user.is_authenticated():
             return redirect(reverse('dashboard:bucketlists'))
@@ -76,9 +75,6 @@ class IndexView(View):
             if self.authenticate_and_login(username, password):
                 # redirect to the dashboard/bucketlists view:
                 return redirect(reverse('dashboard:bucketlists'))
-
-            else:
-                messages.error(request, self.validation_msgs.get('auth_error'))
         else:
             messages.error(request, self.validation_msgs.get('invalid_params'))
 
@@ -93,7 +89,6 @@ class IndexView(View):
                          signin_form=SigninForm(auto_id=True),
                          active_auth_index=0
                          ):
-
         # otherwise show home view:
         context = {
             'signup_form': signup_form,
@@ -104,12 +99,9 @@ class IndexView(View):
         return render(self.request, 'dashboard/home.html', context)
 
     def authenticate_and_login(self, username, password):
-        try:
-            user = authenticate(username=username, password=password)
-            login(self.request, user)
-            return user
-        except:
-            return None
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        return user
 
 
 class BucketListsView(LoginRequiredMixin, ListView):
