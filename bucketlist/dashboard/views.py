@@ -145,6 +145,7 @@ class BucketListsView(LoginRequiredMixin, ListView):
         context.update({
             'sidebar_tab_index': 1,
             'search_query': self.search_query or None,
+            'title': 'My Bucket Lists',
         })
         return context
 

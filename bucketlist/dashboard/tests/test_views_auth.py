@@ -1,10 +1,5 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
-from ..views import BucketListsView, \
-     BucketListCreateView, BucketListUpdateView, \
-     BucketListDeleteView, BucketListDetailView, \
-     BucketListItemCreateView, BucketListItemUpdateView, \
-     BucketListItemDoneView, BucketListItemDeleteView
 
 
 class HomeViewTestCase(TestCase):
@@ -35,7 +30,7 @@ class HomeViewTestCase(TestCase):
         """
         response = self.client.post(
             reverse('home'),
-            data={
+            {
                 'signup': '',
                 'username': 'masterp',
                 'password1': 'tia',
@@ -51,7 +46,7 @@ class HomeViewTestCase(TestCase):
         """
         response = self.client.post(
             reverse('home'),
-            data={
+            {
                 'signup': '',
                 'username': 'uzo',
                 'password1': 'tia',
@@ -68,7 +63,7 @@ class HomeViewTestCase(TestCase):
         """
         response = self.client.post(
             reverse('home'),
-            data={
+            {
                 'signup': '',
                 'username': 'uzo',
                 'password1': 'tia',
@@ -84,7 +79,7 @@ class HomeViewTestCase(TestCase):
         """
         response = self.client.post(
             reverse('home'),
-            data={
+            {
                 'signin': '',
                 'username': 'uzo',
                 'password': 'tia',
@@ -99,7 +94,7 @@ class HomeViewTestCase(TestCase):
         """
         response = self.client.post(
             reverse('home'),
-            data={
+            {
                 'signin': '',
                 'username': 'masterp',
                 'password': 'tia',
@@ -108,7 +103,11 @@ class HomeViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('Invalid username or password!', response.content)
 
-
-
-
-
+    def test_user_logout(self):
+        """
+        Tests that the user can logout.
+        """
+        response = self.client.get(
+            reverse('signout')
+        )
+        self.assertEqual(response.status_code, 302)

@@ -35,7 +35,6 @@ class BucketlistsTestCase(APITestCase):
         response = self.client.get(
             reverse('api:bucketlists'),
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data.get('results')), 4)
         self.assertEqual(response.data.get('count'), 4)
