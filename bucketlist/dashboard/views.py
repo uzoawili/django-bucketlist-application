@@ -91,8 +91,7 @@ class IndexView(View):
     def render_home_view(self,
                          signup_form=SignupForm(auto_id=True),
                          signin_form=SigninForm(auto_id=True),
-                         active_auth_index=0000,
-                         validation_msg=""
+                         active_auth_index=0
                          ):
 
         # otherwise show home view:
@@ -100,7 +99,6 @@ class IndexView(View):
             'signup_form': signup_form,
             'signin_form': signin_form,
             'active_auth_index': active_auth_index,
-            'validation_msg': validation_msg,
         }
         context.update(csrf(self.request))
         return render(self.request, 'dashboard/home.html', context)
