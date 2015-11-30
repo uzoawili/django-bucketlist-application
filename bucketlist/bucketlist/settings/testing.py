@@ -2,13 +2,14 @@
 Test specific settings.
 """
 import os
+import logging
 
 if os.getenv('TRAVIS') is None:
     from django_envie.workroom import convertfiletovars
     convertfiletovars()
 
-import logging
 from .base import *
+
 
 logging.disable(logging.CRITICAL)
 

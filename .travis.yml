@@ -1,0 +1,15 @@
+language: python
+python:
+- '2.7'
+env:
+- DJANGO_SETTINGS_MODULE=bucketlist.settings.testing
+install:
+- pip install --upgrade pip
+- pip install -r requirements.txt
+- npm install bower
+script:
+- bower install --settings=bucketlist.settings.testing
+- python bucketlist/manage.py collectstatic --noinput --settings=bucketlist.settings.testing
+- coverage run --source=dashboard,api bucketlist/manage.py test bucketlist --settings=bucketlist.settings.testing
+after_success:
+- coveralls
