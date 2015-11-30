@@ -1,6 +1,11 @@
 """
 Test specific settings.
 """
+import os
+
+if os.getenv('TRAVIS') is None:
+    from django_envie.workroom import convertfiletovars
+    convertfiletovars()
 
 import logging
 from .base import *
