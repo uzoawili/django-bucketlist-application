@@ -20,18 +20,6 @@ $(document).ready(function() {
     Materialize.toast(toast_text, 4000);
   }
 
-//----------------------------------------
-  //  'Done' checkboxes:
-  //----------------------------------------
-  console.log("sfhkjnlm");
-  $('input').change(function(e) {
-    //e.preventDefault();
-    console.log("sfhkjnlm");
-    // $targetForm = $target.closest('form');
-    // if($targetForm){
-    //   $targetForm.submit();
-    // }
-  });
 
   //----------------------------------------
   //  Packery grids:

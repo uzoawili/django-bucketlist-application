@@ -1,21 +1,25 @@
 <!-- Delete confirmation modal-->
-<div id="modal-confirm-delete" class="modal">
+<div id="modal-confirm-delete" class="modal center-align">
 
-  <div class="row">
+  <div class="row header">
     <div class="col s12">
       <h3>Confirm Delete</h3>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row body">
     <div class="col s12">
       <p>{{ message }}</p>
     </div>
   </div>
 
-  <form action="" method="POST">
-    {% csrf_token %}
-    <button class="btn btn-large waves-effect waves-green" type="submit" name="save">Delete</button>
-  </form>
+  <div class="row actions">
+    <div class="col s12">
+      <form action="" method="POST">{% csrf_token %}
+        <button class="btn btn-large waves-effect waves-green" type="submit" name="save">Yes</button>
+        <a class="btn btn-large waves-effect waves-green modal-close">No</a>
+      </form>
+    </div>
+  </div>
 
 </div>

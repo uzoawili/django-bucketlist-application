@@ -5,14 +5,12 @@
 {% block view_title %}My Bucket Lists{% endblock view_title %}</h3>
 
 {% block options %}
-  <!-- search form -->
-  <form action="" method="GET">
-    <div class="input-field">
-      <input name="q" id="search" type="search" {% if search_query %}value="{{ search_query }}"{% endif %} required>
-      <label for="search"><i class="material-icons">search</i></label>
-      <i class="material-icons">close</i>
-    </div>
-  </form>
+  {% if search_query %}
+    <!-- Cancel button -->
+    <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists' %}">
+      <i class="material-icons">&#xE14C;</i><!-- clear -->
+    </a>
+  {% endif %}
 {% endblock options %}
   
 
@@ -35,6 +33,19 @@
 
   <div class="content">
     {% if bucketlists|length %}
+      <!-- search bar -->
+      <div class="container">
+      <div class="row search-bars">
+        <div class="col s12">
+          <form action="" method="GET">
+            <div class="input-field">
+              <input name="q" id="search" type="text" {% if search_query %}value="{{ search_query }}"{% endif %} required>
+              <label for="search">Search</label>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
       <!-- thumbnail list -->
       <ul class="thumb-list packery-grid">
         <div class="grid-sizer"></div>
@@ -43,7 +54,6 @@
           {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
         {% endfor %}
       </ul>
-
       <!-- pagination -->
       <div class="row">
         <div class="col s12">

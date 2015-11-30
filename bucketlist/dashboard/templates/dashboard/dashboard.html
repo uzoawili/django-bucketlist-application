@@ -8,7 +8,7 @@
 
     <nav>
       <!-- sidebar, collapses on smaller screens -->
-      <div id="slide-out" class="side-nav fixed">
+      <div id="slide-out" class="side-nav">
         <div class="container">
           <div class="brand">
             <img src="{% static 'img/brand.png' %}">
@@ -26,9 +26,10 @@
 
 
       <!-- page header bar containing title, options, search etc -->
-      <div class="page-header valign-wrapper">
+      <div class="container page-header">
+        <div class="valign-wrapper">
 
-        <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
+        <a href="#" data-activates="slide-out" class="button-collapse">
           <i class="mdi-navigation-menu"></i>
         </a>
 
@@ -44,14 +45,18 @@
         {% endblock options %}
         </div>
 
+        </div>
+
       </div><!-- end page-header -->
 
     </nav>
 
     <section class="scrollable-content">
-    {% block page %}
-        {# scrollable page content goes here #}
-    {% endblock page %}
+      <div class="container">
+      {% block page %}
+          {# scrollable page content goes here #}
+      {% endblock page %}
+      </div>
     </section>
 
     <section class="modals">

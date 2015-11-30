@@ -1,9 +1,17 @@
+{% load humanize %}
 
-<li class="bucketlist-thumb grid-item ">
+<li class="card-panel hoverable bucketlist-thumb grid-item">
   
-  <a class="info card-panel hoverable" href="{% url 'dashboard:bucketlist_details' pk=bucketlist.pk %}">
+  <a class="info " href="{% url 'dashboard:bucketlist_details' pk=bucketlist.pk %}">
     <h4 class="name">{{ bucketlist.name|title }}</h4>
-    <h6 class="stats">{{ bucketlist.num_done_items }}/{{ bucketlist.num_items }}</h6>
+    <h6 class="stats">
+      {{ bucketlist.date_modified|naturalday }} - 
+      {% if bucketlist.num_items %}
+        {{ bucketlist.num_done_items }} of {{ bucketlist.num_items }} item{{ bucketlist.num_items|pluralize }} complete.
+      {% else %}
+        No items currently added.
+      {% endif %}
+    </h6>
     <p class="description">{{ bucketlist.description }}</p>
   </a>
 

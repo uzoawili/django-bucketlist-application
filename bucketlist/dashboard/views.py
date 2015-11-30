@@ -110,7 +110,7 @@ class BucketListsView(LoginRequiredMixin, ListView):
     Returns a list of bucketlists created by this logged in user.
     """
     template_name = 'dashboard/bucketlists.html'
-    ordering = ['-date_created', ]
+    ordering = ['date_created', ]
     context_object_name = 'bucketlists'
     paginate_by = settings.DASHBOARD_PAGE_LIMIT
 
@@ -256,7 +256,8 @@ class BucketListDetailView(LoginRequiredMixin, DetailView):
         context = super(BucketListDetailView, self).get_context_data(**kwargs)
         context.update({
             'sidebar_tab_index': 1,
-            'items': BucketListItem.objects.filter(bucketlist=self.object),
+            'items': BucketListItem.objects.filter(bucketlist=self.object)
+                                           .order_by('pk')
         })
         return context
 

@@ -12,15 +12,9 @@
 {% endblock options %}
 
 {% block page %}
-	<!-- Add New button -->
-	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
-    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_item_create' pk=bucketlist.pk %}">
-    	<i class="large material-icons">add</i>
-    </a>
-  </div>
-
-  <!-- Toasts/messages -->
+	
   {% if messages %}
+    <!-- Toasts/messages -->
     <div class="messages hide">
       {% for message in messages %}
       {{ message }}&nbsp;
@@ -31,7 +25,9 @@
   <div class="content">
     {% if items|length %}
       <!-- thumbnail list -->
-      <ul class="thumb-list">
+      <ul class="thumb-list packery-grid">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
         {% for item in items %}
           {% include "dashboard/snippet_bucketlist_item_thumb.html" with item=item bucketlist=bucketlist %}
         {% endfor %}
@@ -39,13 +35,20 @@
 
     {% else %}
     <!-- empty prompt -->
-    <div class="container valign-wrapper empty-prompt">
+    <div class="valign-wrapper empty-prompt">
       <div>
         <h5 class="valign">This bucket list currently has no items.</h5>
         <h5> Use the '+' button below to add a new item.</h5>
       </div>
     </div>
   	{% endif %}
+  </div>
+
+  <!-- Add New button -->
+  <div class="fixed-action-btn click-to-toggle tooltipped page-fab" data-position="left" data-tooltip="Add New" >
+    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_item_create' pk=bucketlist.pk %}">
+      <i class="large material-icons">add</i>
+    </a>
   </div>
 
 {% endblock page %}

@@ -13,9 +13,9 @@
 			
 			<div class="container">
 
-				<div class="row brand">
+				<div class="row page-header">
 					<div class="col s12 m12 l12">
-						<div><img src="{% static 'img/brand.png' %}"></div>
+						<div class="brand"><img src="{% static 'img/brand.png' %}"></div>
 					</div>
 				</div>
 
@@ -34,7 +34,7 @@
 					</div>
 
 					<div class="col s12 m12 l5">
-						<div class="auth-panels right" data-active-auth-index="{{ active_auth_index }}">
+						<div class="auth-panels" data-active-auth-index="{{ active_auth_index }}">
 								{% include "dashboard/snippet_signup.html" with form=signup_form %}
 								{% include "dashboard/snippet_signin.html" with form=signin_form %}
 						</div>
@@ -42,8 +42,8 @@
 
 				</div> <!-- end page-sections -->
 
-				<div class="page-footer">
-					<p class="copyright left" >©{% now "Y" %} TheBucketListApp. A project by <a href="http://github.com/andela-uawili/">Awili Uzo</a> from <a href="http://andela.com">Andela</a>. #TIA</p>
+				<div class="row page-footer">
+					<p class="copyright" >©{% now "Y" %} TheBucketListApp. A project by <a href="http://github.com/andela-uawili/">Awili Uzo</a> from <a href="http://andela.com">Andela</a>. #TIA</p>
 				</div>
 
 			</div><!-- end container -->
