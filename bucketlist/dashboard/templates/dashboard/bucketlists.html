@@ -1,0 +1,83 @@
+{% extends "dashboard/dashboard.html" %}
+{% load static %}
+
+{% block window_title %}Dashboard - Bucket Lists{% endblock window_title %}
+{% block view_title %}My Bucket Lists{% endblock view_title %}</h3>
+
+{% block options %}
+  {% if search_query %}
+    <!-- Cancel button -->
+    <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists' %}">
+      <i class="material-icons">&#xE14C;</i><!-- clear -->
+    </a>
+  {% endif %}
+{% endblock options %}
+  
+
+{% block page %}
+	<!-- Add New button -->
+	<div class="fixed-action-btn click-to-toggle tooltipped" data-position="left" data-tooltip="Add New" >
+    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_create'%}">
+    	<i class="large material-icons">add</i>
+    </a>
+  </div>
+
+  <!-- Toasts/messages -->
+  {% if messages %}
+    <div class="messages hide">
+      {% for message in messages %}
+      {{ message }}&nbsp;
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="content">
+    {% if bucketlists|length %}
+      <!-- search bar -->
+      <div class="container">
+      <div class="row search-bars">
+        <div class="col s12">
+          <form action="" method="GET">
+            <div class="input-field">
+              <input name="q" id="search" type="text" {% if search_query %}value="{{ search_query }}"{% endif %} required>
+              <label for="search">Search</label>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
+      <!-- thumbnail list -->
+      <ul class="thumb-list packery-grid">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
+        {% for bucketlist in bucketlists %}
+          {% include "dashboard/snippet_bucketlist_thumb.html" with bucketlist=bucketlist %}
+        {% endfor %}
+      </ul>
+      <!-- pagination -->
+      <div class="row">
+        <div class="col s12">
+          {% include "dashboard/snippet_pagination.html" with page=page_obj %}
+        </div>
+      </div>
+
+    {% else %}
+    <!-- empty prompt -->
+    <div class="container valign-wrapper empty-prompt">
+      <div>
+        {% if search_query %}
+          <h5> Sorry, no results found for '{{ search_query }}'.</h5>
+        {% else %}
+          <h5 class="valign">You currently have no bucket lists.</h5>
+          <h5> Use the '+' button below to create a new bucket list.</h5>
+        {% endif %}
+      </div>
+    </div>
+  	{% endif %}
+  </div>
+
+{% endblock page %}
+
+{% block modals %}
+  {% include "dashboard/modal_confirm_delete.html" with message="Are you sure you want delete this bucketlist?" %}
+{% endblock modals %}

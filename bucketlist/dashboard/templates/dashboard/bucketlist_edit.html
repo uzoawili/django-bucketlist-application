@@ -1,0 +1,74 @@
+{% extends "dashboard/dashboard.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block window_title %}Dashboard - {{ title }}{% endblock window_title %}
+{% block view_title %}{{ title }}{% endblock view_title %}</h3>
+
+{% block options %}
+  <!-- Cancel button -->
+  <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists'%}">
+    <i class="material-icons">&#xE14C;</i><!-- clear -->
+  </a>
+{% endblock options %}
+
+{% block page %}
+
+  <div class="content">
+    <div class="row">
+      <div class="col s12 m8 l6">
+        <div class="card-panel">
+          <!-- bucketlist form -->
+          <form class="card-form" action="" method="POST">
+            {% csrf_token %}
+
+            <!-- messages -->
+            <div class="row">
+              <div class="col s12">
+                <p class="message truncate tiny">
+                {% if messages %}
+                  {% for message in messages %}
+                  {{ message }}&nbsp;
+                  {% endfor %}
+                {% endif %}
+                </p>
+              </div>
+            </div>
+
+            <!-- fields -->
+            <div class="row">
+              {% for field in form %}
+                <div class="input-field col s12">
+                  
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+                  {% if field|widget_type == 'textarea' %}
+                    {% render_field field  class+="materialize-textarea" %}
+                  {% else %}
+                    {% render_field field %}
+                  {% endif %}
+
+                  <div class="errors">{{ field.errors }}</div>
+
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- actions -->
+            <div class="row actions">
+              <div class="col s12">
+                <button class="btn btn-large waves-effect waves-green right" type="submit" name="save">Save Bucket List</button>
+              </div>
+            </div>
+
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock page %}
+
+{% block modals %}
+	{# include modals here #}
+{% endblock modals %}

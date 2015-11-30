@@ -1,0 +1,2 @@
+export DJANGO_SETTINGS_MODULE=bucketlist.settings
+gunicorn thebucketlistapp.wsgi --pythonpath=thebucketlistapp --log-file -

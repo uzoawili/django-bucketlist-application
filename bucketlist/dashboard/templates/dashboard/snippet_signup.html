@@ -1,0 +1,45 @@
+<div class="panel">
+  <div class="row">
+
+    <div class="col s12">
+      <h3>Sign up</h3>
+    </div>
+    
+    <form method="POST" action="" class="col s12">
+      {% csrf_token %}
+      <div class="row">
+
+        {% for field in form %}
+          <div class="input-field col s12">
+              <label for="{{ field.id_for_label }}">
+                  {{ field.label }}
+              </label>
+              {{ field }}
+          </div>
+        {% endfor %}
+
+        <div class="col s12">
+          <p class="message center-align truncate tiny">
+          {% if messages %}
+              {% for message in messages %}
+              {{ message }}&nbsp;
+              {% endfor %}
+          {% endif %}
+          </p>
+        </div>
+
+        <div class="col s12">
+          <button class="btn btn-large waves-effect waves-dark" type="submit" name="signup">Get Started</button>
+        </div>
+
+      </div>
+    </form>
+
+    <div class="col s12">
+      <p class="auth-link center-align ">Already have an account? <a href="#" id="signin-link" >{{ "Sign in" | upper }}</a></p>
+    </div>
+    
+  </div>
+</div>
+
+

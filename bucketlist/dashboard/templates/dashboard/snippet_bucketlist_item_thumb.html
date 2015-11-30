@@ -1,0 +1,49 @@
+{% load humanize %}
+
+<li class="bucketlist-item-thumb grid-item">
+  
+  <div class="card-panel">
+
+    <div class="valign-wrapper">
+      <div class="indicator valign">
+        {% if item.done %}
+          <i class="material-icons done">&#xE876;</i><!-- done -->
+        {% else %}
+          <i class="material-icons undone">&#xE061;</i><!-- fibre_manual_record -->
+        {% endif %}
+      </div>
+      <div class="info">
+        <h5 class="name">{{ item.name|title }}</h5>
+        <h6 class="stats">{{ item.date_modified|naturalday|title }}</h6>
+      </div>
+    </div>
+  
+    <div class="fixed-action-btn horizontal">
+      <a class="btn-floating btn more-btn">
+        <i class="material-icons">&#xE5D3;</i> <!-- more_horiz -->
+      </a>
+
+      <ul>
+        {% if not item.done %}
+
+        <li><form action="{% url 'dashboard:bucketlist_item_done' pk=bucketlist.pk item_pk=item.pk %}" method="POST">{% csrf_token %}
+        <button type="submit" name="done" class="btn-floating tooltipped" data-position="bottom" data-tooltip="Done">
+        <i class="material-icons">&#xE876;</i><!-- done -->
+        </button>
+        </form></li>
+
+        {% endif %}
+        
+        <li><a href="{% url 'dashboard:bucketlist_item_update' pk=bucketlist.pk item_pk=item.pk %}" class="btn-floating tooltipped" data-position="bottom" data-tooltip="Edit">
+        <i class="material-icons">&#xE254;</i><!-- mode_edit -->
+        </a></li>
+        
+        <li><a href="{% url 'dashboard:bucketlist_item_delete' pk=bucketlist.pk item_pk=item.pk %}" class="btn-floating modal-trigger tooltipped" data-target="#modal-confirm-delete" data-position="bottom" data-tooltip="Delete">
+        <i class="material-icons">&#xE872;</i><!-- delete -->
+        </a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</li>

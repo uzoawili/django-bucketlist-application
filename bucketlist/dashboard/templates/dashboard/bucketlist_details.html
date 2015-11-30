@@ -1,0 +1,58 @@
+{% extends "dashboard/dashboard.html" %}
+{% load static %}
+
+{% block window_title %}Dashboard - Bucket Lists{% endblock window_title %}
+{% block view_title %}{{ bucketlist.name|title }}{% endblock view_title %}</h3>
+
+{% block options %}
+  <!-- Cancel button -->
+  <a class="btn-icon tooltipped" data-position="bottom" data-tooltip="Cancel" href="{% url 'dashboard:bucketlists'%}">
+    <i class="material-icons">&#xE14C;</i><!-- clear -->
+  </a>
+{% endblock options %}
+
+{% block page %}
+	
+  {% if messages %}
+    <!-- Toasts/messages -->
+    <div class="messages hide">
+      {% for message in messages %}
+      {{ message }}&nbsp;
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="content">
+    {% if items|length %}
+      <!-- thumbnail list -->
+      <ul class="thumb-list packery-grid">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
+        {% for item in items %}
+          {% include "dashboard/snippet_bucketlist_item_thumb.html" with item=item bucketlist=bucketlist %}
+        {% endfor %}
+      </ul>
+
+    {% else %}
+    <!-- empty prompt -->
+    <div class="valign-wrapper empty-prompt">
+      <div>
+        <h5 class="valign">This bucket list currently has no items.</h5>
+        <h5> Use the '+' button below to add a new item.</h5>
+      </div>
+    </div>
+  	{% endif %}
+  </div>
+
+  <!-- Add New button -->
+  <div class="fixed-action-btn click-to-toggle tooltipped page-fab" data-position="left" data-tooltip="Add New" >
+    <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'dashboard:bucketlist_item_create' pk=bucketlist.pk %}">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+
+{% endblock page %}
+
+{% block modals %}
+  {% include "dashboard/modal_confirm_delete.html" with message="Are you sure you want delete this item?" %}
+{% endblock modals %}

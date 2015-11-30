@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block window_title %}Dashboard{% endblock window_title %}
+
+{% block main %}
+  <main class="dashboard">
+
+    <nav>
+      <!-- sidebar, collapses on smaller screens -->
+      <div id="slide-out" class="side-nav">
+        <div class="container">
+          <div class="brand">
+            <img src="{% static 'img/brand.png' %}">
+          </div>
+
+          <ul class="user-options">
+              <li {% if sidebar_tab_index == 0 %}class="active"{% endif %}><a href="{% url 'dashboard:bucketlists' %}" class="profile-link">
+                <h5>@{{ request.user.username }}</h5>
+              </a></li>
+              <li {% if sidebar_tab_index == 1 %}class="active"{% endif %}><a href="{% url 'dashboard:bucketlists' %}" class="">My Bucket Lists</a></li>
+              <li {% if sidebar_tab_index == 2 %}class="active"{% endif %}><a href="{% url 'signout' %}" class="">Sign Out</a></li>
+          </ul>
+        </div>
+      </div> <!-- end slide-out side-nav -->
+
+
+      <!-- page header bar containing title, options, search etc -->
+      <div class="container page-header">
+        <div class="valign-wrapper">
+
+        <a href="#" data-activates="slide-out" class="button-collapse">
+          <i class="mdi-navigation-menu"></i>
+        </a>
+
+        <div class="view-title valign">
+          <h3>
+            {% block view_title %}---{% endblock view_title %}
+          </h3>
+        </div> 
+
+        <div class="content-options valign">
+        {% block options %}
+          {# content related options goes here #}
+        {% endblock options %}
+        </div>
+
+        </div>
+
+      </div><!-- end page-header -->
+
+    </nav>
+
+    <section class="scrollable-content">
+      <div class="container">
+      {% block page %}
+          {# scrollable page content goes here #}
+      {% endblock page %}
+      </div>
+    </section>
+
+    <section class="modals">
+    {% block modals %}
+        {# modal content goes here #}
+    {% endblock modals %}
+    </section>
+
+  </main>
+{% endblock main %}
