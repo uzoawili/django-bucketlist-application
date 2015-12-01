@@ -28,7 +28,7 @@ deploy:
     - "export DJANGO_SETTINGS_MODULE=bucketlist.settings.staging"
     - "python bucketlist/manage.py collectstatic --noinput --settings=bucketlist.settings.staging"
     - "python bucketlist/manage.py makemigrations --settings=bucketlist.settings.staging"
+    - "python bucketlist/manage.py migrate auth --settings=bucketlist.settings.staging"
     - "python bucketlist/manage.py migrate --settings=bucketlist.settings.staging"
-    - "python bucketlist/manage.py syncdb --noinput --settings=bucketlist.settings.staging"
 after_deploy:
   - "heroku ps:scale web=1 --app thebucketlistapp"
