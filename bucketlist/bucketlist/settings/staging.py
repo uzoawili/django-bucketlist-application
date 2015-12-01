@@ -2,9 +2,11 @@
 Staging specific settings for bucketlist project.
 """
 
-from .base import *
 import dj_database_url
 import os
+
+from .base import *
+
 
 APPLICATION_DIR = os.path.dirname(globals()['__file__'])
 
