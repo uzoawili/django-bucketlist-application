@@ -1,13 +1,13 @@
 # The BucketList App [![Build Status](https://travis-ci.org/andela-uawili/django-bucketlist-application.svg?branch=develop)](https://travis-ci.org/andela-uawili/django-bucketlist-application) [![Coverage Status](https://coveralls.io/repos/andela-uawili/django-bucketlist-application/badge.svg?branch=develop&service=github)](https://coveralls.io/github/andela-uawili/django-bucketlist-application?branch=develop)
 
-A simple, easy to use app that helps you organize and manage collections of bucket lists. Bucket lists are a cool way to keep track of all the oh-so-great-and-mighty things you plan do before you...erm...erm. 
+A simple, easy to use app that helps you organize and manage collections of bucket lists. Bucket lists are a cool way to keep track of all the oh-so-great-and-mighty things you plan to do before you...erm, die. 
 
 ## Features
 + A simple and responsive web app. You can try it out [here](http://thebucketlistapp.herokuapp.com/).
 + RESTful, well documented API. See the API documentation [here](http://thebucketlistapp.herokuapp.com/api/docs/).
 
 ## Tech
-Some of the open projects leveraged in building The BucketList App include:
+Some of the technologies leveraged in building The BucketList App include:
 + [Django](https://www.djangoproject.com/) - Python web development framework for building web apps quickly and with less code.
 + [Django REST Framework](http://www.django-rest-framework.org/) - powerful and flexible toolkit for building Web APIs in Django.
 + [PostgreSQL](http://www.postgresql.org/) - relational database management system.
@@ -66,8 +66,8 @@ Run `$ bucketlist/python manage.py runserver` to start the server.
 
 ## Mockups:
 Some of the high-fidelity mockups created for the UI have been included in this repo in the `/mockups` folder.
-+ [Landing View](https://github.com/andela-uawili/django-bucketlist-application/blob/develop/mockups/Landing.png")
-+ [Dashboard View](https://github.com/andela-uawili/django-bucketlist-application/blob/develop/mockups/dashboard.png")
++ [Landing View](https://github.com/andela-uawili/django-bucketlist-application/blob/develop/mockups/landing.png)
++ [Dashboard View](https://github.com/andela-uawili/django-bucketlist-application/blob/develop/mockups/dashboard.png)
 
 ## Licence:
 GNU GPL
