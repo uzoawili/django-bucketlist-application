@@ -1,0 +1,34 @@
+language: python
+python:
+- '2.7'
+env:
+- DJANGO_SETTINGS_MODULE='bucketlist.settings.testing'
+install:
+- pip install --upgrade pip
+- pip install -r requirements.txt
+- npm install bower
+script:
+- bower install --settings=bucketlist.settings.testing
+- python bucketlist/manage.py collectstatic --noinput --settings=bucketlist.settings.testing
+- coverage run --source=dashboard,api bucketlist/manage.py test bucketlist --settings=bucketlist.settings.testing -s
+after_success:
+- coveralls
+deploy:
+  provider: heroku
+  buildpack:
+    - node
+    - python
+  api_key: '0e293adb-05d5-4d8a-8d5d-e0b9e4fb7633'
+  app:
+    develop: thebucketlistapp
+    master: thebucketlistapp
+  on:
+    all_branches: true
+  run:
+    - "export DJANGO_SETTINGS_MODULE=bucketlist.settings.staging"
+    - "python bucketlist/manage.py collectstatic --noinput --settings=bucketlist.settings.staging"
+    - "python bucketlist/manage.py makemigrations --settings=bucketlist.settings.staging"
+    - "python bucketlist/manage.py migrate auth --settings=bucketlist.settings.staging"
+    - "python bucketlist/manage.py migrate --settings=bucketlist.settings.staging"
+after_deploy:
+  - "heroku ps:scale web=1 --app thebucketlistapp"
