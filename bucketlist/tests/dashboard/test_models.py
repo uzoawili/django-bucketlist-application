@@ -1,85 +1,79 @@
-# from django.test import TestCase
-# from django.contrib.auth.models import User
-# from ..models import BucketList, BucketListItem
+from django.test import TestCase
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+
+from dashboard.models import BucketList, BucketListItem
 
 
-# class BucketListTestCase(TestCase):
-#     """
-#     Tests the BucketList model.
-#     """
+class BucketListTestCase(TestCase):
+    """
+    Testcase for the BucketList model.
+    """
+    fixtures = ['sample_data.json']
 
-#     def setUp(self):
-#         pass
+    def setUp(self):
+        """
+        operations to be done before every test
+        """
+        self.user = User.objects.get(username="uzo")
+        self.bucketlist = BucketList.objects.get(pk=71)
 
-#     def test_that_bucket_list_created(self):
-#         """
-#         Ensures that bucketlists can be created.
-#         """
-#         bucketlist = Bucketlist.objects.get(
-#             name=self.title)
+    def test_bucket_lists_can_be_created_for_user(self):
+        """
+        Tests that BucketLists can be created with a name and user
+        """
+        bucketlist = BucketList.objects.create(
+            name="Foo Foo Foo",
+            created_by=self.user
+        )
+        self.assertEqual(type(bucketlist.id), int)
 
-#         self.assertEqual(type(bucketlist.id), int)
+    def test_bucket_lists_cannot_be_created_without_name(self):
+        """
+        Tests that BucketLists cannot be created without a name
+        """
+        with self.assertRaises(ValidationError):
+            bucketlist = BucketList.objects.create(
+                created_by=self.user
+            )
+            bucketlist.full_clean()
 
-#     def test_that_bucket_list_item_can_be_created(self):
-#         """Ensures that bucketlist items can be created.
-#         """
-#         bucketlist = Bucketlist.objects.get(
-#             name=self.title)
-#         bucketlist_item = BucketlistItem(
-#             name="Visit India",
-#             done=False,
-#             bucketlist=bucketlist,
-#             user_id=self.user.id)
-#         bucketlist_item.save()
+    def test_bucket_lists_cannot_be_created_without_creator(self):
+        """
+        Tests that BucketLists cannot be created without a user
+        set as the creator
+        """
+        with self.assertRaises(IntegrityError):
+            BucketList.objects.create(
+                name="Foo bucketlist"
+            )
 
-#         bucketlist_item = BucketlistItem.objects.get(
-#             name="Visit India")
+    def test_bucket_lists_items_can_be_created_for_user(self):
+        """
+        Tests that BucketListItem can be created with a name and bucketlist
+        """
+        item = BucketListItem.objects.create(
+            name="Foo Item",
+            bucketlist=self.bucketlist
+        )
+        self.assertEqual(type(item.id), int)
 
-#         self.assertEqual(bucketlist_item.done, False)
-#         self.assertEqual(
-#             bucketlist_item.bucketlist_id,
-#             bucketlist.id)
+    def test_bucket_lists_items_cannot_be_created_without_name(self):
+        """
+        Tests that BucketListItem cannot be created without a name
+        """
+        with self.assertRaises(ValidationError):
+            item = BucketListItem.objects.create(
+                bucketlist=self.bucketlist
+            )
+            item.full_clean()
 
-#     def test_that_models_can_be_queried(self):
-#         """Ensures that models can be queried.
-#         """
-#         bucketlist = Bucketlist.objects.get(
-#             name=self.title)
-#         bucketlist_item = BucketlistItem(
-#             name="Visit India",
-#             done=False,
-#             bucketlist=bucketlist,
-#             user_id=self.user.id)
-#         bucketlist_item.save()
-
-#         query_results = BucketlistItem.search('Visit India')
-
-#         self.assertIn(bucketlist_item, query_results)
-
-#     def test_that_items_done_can_be_retrieved(self):
-#         """Ensure that items done can be retrieved
-#         """
-#         bucketlist = Bucketlist.objects.get(
-#             name=self.title)
-#         bucketlist_item = BucketlistItem(
-#             name="Visit India",
-#             done=False,
-#             bucketlist=bucketlist,
-#             user_id=self.user.id)
-#         bucketlist_item.save()
-
-#         self.assertEqual(bucketlist.num_items_done(), 0)
-
-#         bucketlist_item.done = True
-#         bucketlist_item.save()
-#         self.assertEqual(bucketlist.num_items_done(), 1)
-
-#     def test_that_user_profile_can_be_created(self):
-#         """Ensure that user profile can be created
-#         """
-#         user_profile = UserProfile(bio="Some bio info", age=24, user=self.user)
-#         user_profile.save()
-
-#         test_user_profile = UserProfile.objects.get(user=self.user)
-
-#         self.assertEqual(test_user_profile.id, user_profile.id)
+    def test_bucket_lists_items_cannot_be_created_without_creator(self):
+        """
+        Tests that BucketLists cannot be created without it's bucketlist set
+        """
+        with self.assertRaises(IntegrityError):
+            BucketListItem.objects.create(
+                name="Foo item"
+            )
